@@ -6,25 +6,25 @@
     <title><?php echo isset($sys_app_name) ? $sys_app_name : 'Starter Kit'; ?> | <?php echo isset($title) ? $title : ''; ?></title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/starter_kit/vendor/bootstrap.min.css'); ?>">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/starter_kit/vendor/font-awesome.min.css'); ?>">
     <!-- DataTables -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/starter_kit/vendor/dataTables.bootstrap.min.css'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/starter_kit/vendor/buttons.bootstrap.min.css'); ?>">
     <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/starter_kit/vendor/sweetalert2.min.css'); ?>">
     <!-- Theme style -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@2.4.18/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/starter_kit/vendor/AdminLTE.min.css'); ?>">
     <!-- AdminLTE Skins -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@2.4.18/dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/starter_kit/vendor/_all-skins.min.css'); ?>">
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <!-- Custom -->
     <link rel="stylesheet" href="<?php echo base_url('assets/starter_kit/custom.css'); ?>">
     
     <!-- jQuery 3 -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="<?php echo base_url('assets/starter_kit/vendor/jquery-3.6.0.min.js'); ?>"></script>
     <script>
         var BASE_URL = '<?php echo base_url(); ?>';
         var CSRF_NAME = '<?php echo $this->security->get_csrf_token_name(); ?>';
@@ -243,19 +243,22 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo base_url('assets/starter_kit/vendor/bootstrap.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/starter_kit/vendor/jquery.dataTables.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/starter_kit/vendor/dataTables.bootstrap.min.js'); ?>"></script>
 <!-- DataTables Buttons -->
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap.min.js"></script>
+<script src="<?php echo base_url('assets/starter_kit/vendor/dataTables.buttons.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/starter_kit/vendor/buttons.bootstrap.min.js'); ?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/admin-lte@2.4.18/dist/js/adminlte.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="<?php echo base_url('assets/starter_kit/vendor/sweetalert2.min.js'); ?>"></script>
+<!-- AdminLTE App -->
+<script src="<?php echo base_url('assets/starter_kit/vendor/adminlte.min.js'); ?>"></script>
 <script>
     // Standar Global Modal CI3 Enterprise
     if (typeof $.fn.modal !== 'undefined') {
