@@ -235,7 +235,7 @@ function vaporizeData(id, type) {
 
 function emptyVault() {
     App.confirm('CRITICAL ACTION: Empty Global Vault?', 'You are about to permanently obliterate ALL items currently in the Recycle Bin across all modules. This action is absolutely irreversible. Are you sure?', function() {
-        $.post(BASE_URL + 'admin/recycle_bin/empty_bin', function(res) {
+        $.post(BASE_URL + 'admin/recycle_bin/empty_bin', {}, function(res) {
             var r = JSON.parse(res);
             if (r.status == 'success') {
                 App.toast(r.message, 'success');

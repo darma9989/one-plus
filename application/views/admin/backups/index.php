@@ -221,7 +221,7 @@ $(function(){
         App.confirm('Execute Snapshot?', 'System will generate a master SQL blueprint of all data objects.', function() {
             btn.prop('disabled', true).html('<i class="fa fa-refresh fa-spin"></i> GENERATING BLUEPRINT...');
             
-            $.post(BASE_URL + 'admin/backups/backup', function(res) {
+            $.post(BASE_URL + 'admin/backups/backup', {}, function(res) {
                 var r = JSON.parse(res);
                 if(r.status == 'success') {
                     App.alert('Snapshot Created', r.message, 'success').then(() => {
@@ -240,7 +240,7 @@ $(function(){
     $('.btn-delete').click(function() {
         var id = $(this).data('id');
         App.confirm('Purge Snapshot?', 'This will permanently remove the SQL blueprint from infrastructure storage.', function() {
-            $.post(BASE_URL + 'admin/backups/delete/' + id, function(res) {
+            $.post(BASE_URL + 'admin/backups/delete/' + id, {}, function(res) {
                 var r = JSON.parse(res);
                 if(r.status == 'success') {
                     App.toast(r.message, 'success');
