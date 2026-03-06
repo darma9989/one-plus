@@ -326,17 +326,25 @@
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
             if (settings.type.toUpperCase() == 'POST') {
-                if (settings.data === undefined || settings.data === null) {
-                    settings.data = CSRF_NAME + '=' + encodeURIComponent(CSRF_HASH);
-                } else if (typeof settings.data === 'string') {
-                    if (settings.data.indexOf(CSRF_NAME + '=') === -1) {
-                        settings.data += (settings.data.length > 0 ? '&' : '') + CSRF_NAME + '=' + encodeURIComponent(CSRF_HASH);
-                    }
-                } else if (typeof settings.data === 'object' && !(settings.data instanceof FormData)) {
-                    settings.data[CSRF_NAME] = CSRF_HASH;
-                } else if (settings.data instanceof FormData) {
+                if (settings.data instanceof FormData) {
                     if (!settings.data.has(CSRF_NAME)) {
                         settings.data.append(CSRF_NAME, CSRF_HASH);
+                    }
+                } else {
+                    var token = CSRF_NAME + '=' + encodeURIComponent(CSRF_HASH);
+                    if (settings.data === undefined || settings.data === null || settings.data === '') {
+                        settings.data = token;
+                    } else if (typeof settings.data === 'string') {
+                        if (settings.data.indexOf(CSRF_NAME + '=') === -1) {
+                            settings.data += (settings.data.length > 0 ? '&' : '') + token;
+                        }
+                    } else if (typeof settings.data === 'object') {
+                        settings.data[CSRF_NAME] = CSRF_HASH;
+                    }
+                    
+                    // Wajib set Content-Type agar PHP membaca $_POST
+                    if (settings.contentType !== false) {
+                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
                     }
                 }
             }
