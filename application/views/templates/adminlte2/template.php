@@ -326,7 +326,9 @@
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
             if (settings.type.toUpperCase() == 'POST') {
-                if (typeof settings.data === 'string') {
+                if (settings.data === undefined || settings.data === null) {
+                    settings.data = CSRF_NAME + '=' + encodeURIComponent(CSRF_HASH);
+                } else if (typeof settings.data === 'string') {
                     if (settings.data.indexOf(CSRF_NAME + '=') === -1) {
                         settings.data += (settings.data.length > 0 ? '&' : '') + CSRF_NAME + '=' + encodeURIComponent(CSRF_HASH);
                     }
