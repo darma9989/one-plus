@@ -1,5 +1,5 @@
 <!-- Nestable CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.6.0/jquery.nestable.min.css">
+<link rel="stylesheet" href="<?php echo base_url('assets/starter_kit/vendor/jquery.nestable.min.css'); ?>">
 <style>
     .dd { max-width: 100%; }
     .dd-list .dd-item > button { height: 32px; width: 33px; font-size: 18px; margin: 4px 0; }
@@ -192,7 +192,7 @@
 </div>
 
 <!-- Nestable JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/nestable2/1.6.0/jquery.nestable.min.js"></script>
+<script src="<?php echo base_url('assets/starter_kit/vendor/jquery.nestable.min.js'); ?>"></script>
 
 <script>
 var menuEditMode = false;

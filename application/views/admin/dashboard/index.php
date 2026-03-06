@@ -55,7 +55,7 @@
     .nav-btn i { font-size: 14px; width: 18px; text-align: center; color: #94a3b8; }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="<?php echo base_url('assets/starter_kit/vendor/chart.js'); ?>"></script>
 
 <div class="dashboard-container">
     <div class="page-title-box">

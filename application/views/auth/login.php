@@ -9,9 +9,9 @@
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/starter_kit/vendor/font-awesome.min.css'); ?>">
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/starter_kit/vendor/bootstrap.min.css'); ?>">
     
     <style>
         :root {
@@ -270,6 +270,6 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="<?php echo base_url('assets/starter_kit/vendor/jquery-3.6.0.min.js'); ?>"></script>
 </body>
 </html>

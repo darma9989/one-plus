@@ -117,7 +117,7 @@
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="<?php echo base_url('assets/starter_kit/vendor/xlsx.full.min.js'); ?>"></script>
 <script>
 var tblData;
 $(function(){

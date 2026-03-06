@@ -249,12 +249,12 @@
 <!-- DataTables Buttons -->
 <script src="<?php echo base_url('assets/starter_kit/vendor/dataTables.buttons.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/starter_kit/vendor/buttons.bootstrap.min.js'); ?>"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+<script src="<?php echo base_url('assets/starter_kit/vendor/jszip.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/starter_kit/vendor/pdfmake.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/starter_kit/vendor/vfs_fonts.js'); ?>"></script>
+<script src="<?php echo base_url('assets/starter_kit/vendor/buttons.html5.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/starter_kit/vendor/buttons.print.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/starter_kit/vendor/buttons.colVis.min.js'); ?>"></script>
 <!-- SweetAlert2 -->
 <script src="<?php echo base_url('assets/starter_kit/vendor/sweetalert2.min.js'); ?>"></script>
 <!-- AdminLTE App -->

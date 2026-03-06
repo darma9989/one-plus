@@ -146,5 +146,14 @@ Data dari modul yang beroperasi pada *Legacy Database* (`db_lama`) dan menggunak
 1. **Multi-DB Crawler**: Menanamkan helper `_get_db()` pada kelas inti `Recycle_bin_model` agar *engine* ini memindai silang tabel-tabel di koneksi `default` dan `db_lama`.
 2. **Dynamic PK Fallback**: Jika sebuah tabel tidak menggunakan konvensi nama `id`, generator dinamis `_get_pk_name()` di dalam Recycle Bin Model otomatis menemukan nama asli kunci unik tersebut di database dan meneruskannya (`_pk_id`) menuju *Frontend* (`item._pk_id`) sehingga *Controller* tetap aman menjalankan `restore()` dan `hard_delete()` menggunakan atribut identitas sejati.
 3. **UI Scrollability**: Mengantisipasi lonjakan daftar modul di *sidebar* akibat scanning tabel yang menyeluruh, telah ditambahkan proporsi `max-height` dan perilaku `overflow-y` agar panel *Navigation Vault* memunculkan *scrollbar* secara elegan apabila daftar melebih tinggi layar.
+
+## 16. Migrasi Resource CDN Eksternal ke Vendor Lokal
+**Tanggal:** 07 Maret 2026
+**File yang Diubah:** `application/views/templates/adminlte2/template.php` beserta direktori `assets/starter_kit/vendor/`
+**Deskripsi Masalah:**
+Ketergantungan desain antarmuka Starter Kit terhadap link CDN (*Content Delivery Network*) eksternal untuk memuat pustaka CSS, Fonts, dan Javascript (Bootstrap, jQuery, AdminLTE, SweetAlert2, dll). Hal ini berisiko sangat tinggi: jika tautan tersebut kedaluwarsa, berubah (*corrupt*), atau aplikasi kelak didistribusikan ke jaringan Server Intranet tertutup tanpa koneksi Internet (Offline), seluruh *User Interface* sistem akan hancur lebur tidak karuan.
+**Solusi:**
+Proses Isolasi Dependensi Mandiri. Keseluruhan pustaka (*library*) statis mulai dari JS, CSS, tipe Font, hingga *Image Sorting Datatables* dari *Server* pihak ketiga tersebut telah diekstraksi dan disemayamkan secara permanen ke dalam direktori internal `/assets/starter_kit/vendor/`. Selanjutnya, semua tag `<link>` dan `<script src="...">` dirombak murni memanfaatkan pemanggil *relative path* `base_url()`. Starter Kit ini sekarang tersertifikasi **100% Standalone**, anti degradasi, dan kebal mati lampu koneksi internet Global!
+
 ---
 *(Semua pembaruan Core untuk Dual-Database Synchronization telah diinisialisasi sepenuhnya)*
