@@ -676,7 +676,7 @@ function showDetail(category, workzone, statusType, bucket) {
                         item.reported_date,
                         '<span class="label label-' + (statusType == 'OPEN' ? 'danger' : 'success') + '">' + item.ticket_status + '</span>',
                         '<strong class="text-primary">' + formatSeconds(item.ttr_customer) + '</strong>',
-                        ('<small>' + item.summary + '</small>')
+                        '<div style="max-height: 80px; overflow-y: auto; font-size: 11px; line-height: 1.4; color: #ccc; min-width: 250px; white-space: normal; word-break: break-all;">' + (item.summary || '-') + '</div>'
                     ]);
                 });
             }
