@@ -18,9 +18,13 @@ class Dashboard_insera_model extends CI_Model {
         if (!$workzone_group) return;
 
         $mapping = array(
-            '1' => array('TRK', 'TAJ', 'JWT'),
+            '1' => array('TRK', 'TAJ', 'JTW'),
             '2' => array('MLN', 'TPE', 'NNK', 'SNY'),
-            '3' => array('TRD', 'TBY', 'LNN', 'TSL', 'TLA')
+            '3' => array('TRD', 'TBY', 'LNN', 'TSL', 'TLA'),
+            '4' => array('MLN', 'TPE'),
+            '5' => array('NNK', 'SNY'),
+            '6' => array('TSL', 'TLA'),
+            '7' => array('TRD', 'TBY', 'LNN')
         );
 
         if (isset($mapping[$workzone_group])) {
@@ -54,6 +58,21 @@ class Dashboard_insera_model extends CI_Model {
         }
 
         $sql = "SELECT scrape_category, work_zone,
+                   CASE 
+                       WHEN work_zone IN ('NNK', 'SNY', 'MLN', 'TPE') THEN 'Nunukan'
+                       WHEN work_zone IN ('JTW', 'TAJ', 'TRK') THEN 'Tarakan'
+                       WHEN work_zone IN ('TSL', 'TLA', 'TRD', 'LNN', 'TBY') THEN 'Tanjung Redeb'
+                       ELSE 'Other'
+                   END AS service_area,
+                   CASE
+                       WHEN work_zone IN ('NNK', 'SNY') THEN 'Nunukan'
+                       WHEN work_zone IN ('MLN', 'TPE') THEN 'Malinau'
+                       WHEN work_zone IN ('JTW', 'TAJ') THEN 'Tarakan 1'
+                       WHEN work_zone IN ('TRK') THEN 'Tarakan 2'
+                       WHEN work_zone IN ('TSL', 'TLA') THEN 'Tanjung Selor'
+                       WHEN work_zone IN ('TRD', 'LNN', 'TBY') THEN 'Tanjung Redeb'
+                       ELSE 'Other'
+                   END AS sektor,
                    SUM(CASE WHEN $aging_expr < 1 THEN 1 ELSE 0 END) AS `< 1 jam`,
                    SUM(CASE WHEN $aging_expr >= 1 AND $aging_expr < 2 THEN 1 ELSE 0 END) AS `1-2 jam`,
                    SUM(CASE WHEN $aging_expr >= 2 AND $aging_expr < 3 THEN 1 ELSE 0 END) AS `2-3 jam`,
@@ -84,7 +103,7 @@ class Dashboard_insera_model extends CI_Model {
             $sql .= " AND ticket_status NOT IN ($status_list)";
         }
 
-        $sql .= " GROUP BY scrape_category, work_zone";
+        $sql .= " GROUP BY scrape_category, service_area, sektor, work_zone";
 
         $query = $this->db_lama->query($sql);
         $result = $query->result_array();

@@ -435,9 +435,13 @@
                                 <label>Workzone Assignment</label>
                                 <select name="workzone" id="workzone" class="form-control">
                                     <option value="">— Group (Superadmin) —</option>
-                                    <option value="1">Group 1 (TRK, TAJ, JWT)</option>
+                                    <option value="1">Group 1 (TRK, TAJ, JTW)</option>
                                     <option value="2">Group 2 (MLN, TPE, NNK, SNY)</option>
                                     <option value="3">Group 3 (TRD, TBY, LNN, TSL, TLA)</option>
+                                    <option value="4">Group 4 (MLN, TPE)</option>
+                                    <option value="5">Group 5 (NNK, SNY)</option>
+                                    <option value="6">Group 6 (TSL, TLA)</option>
+                                    <option value="7">Group 7 (TRD, TBY, LNN)</option>
                                 </select>
                             </div>
                         </div>
@@ -464,14 +468,7 @@
 <script>
 $(function(){
     $('#tblUsers').DataTable({
-        responsive: true,
-        autoWidth: false,
-        dom: '<"row"<"col-sm-6"B><"col-sm-6"f>>rt<"row"<"col-sm-5"i><"col-sm-7"p>>',
-        buttons: [
-            { extend: 'excel', className: 'btn btn-flat', text: '<i class="fa fa-file-excel-o text-success"></i> Excel' },
-            { extend: 'pdf', className: 'btn btn-flat', text: '<i class="fa fa-file-pdf-o text-danger"></i> PDF' },
-            { extend: 'print', className: 'btn btn-flat', text: '<i class="fa fa-print"></i> Print' }
-        ]
+        autoWidth: false
     });
 
     // Avatar preview

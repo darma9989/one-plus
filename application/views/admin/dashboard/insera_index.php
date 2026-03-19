@@ -273,9 +273,13 @@
     $workzone_group = $this->session->userdata('workzone');
     if (!$this->session->userdata('is_superadmin') && $workzone_group): 
         $mapping = array(
-            '1' => 'TRK, TAJ, JWT',
+            '1' => 'TRK, TAJ, JTW',
             '2' => 'MLN, TPE, NNK, SNY',
-            '3' => 'TRD, TBY, LNN, TSL, TLA'
+            '3' => 'TRD, TBY, LNN, TSL, TLA',
+            '4' => 'MLN, TPE',
+            '5' => 'NNK, SNY',
+            '6' => 'TSL, TLA',
+            '7' => 'TRD, TBY, LNN'
         );
         $codes = isset($mapping[$workzone_group]) ? $mapping[$workzone_group] : 'Unknown';
 ?>
@@ -347,6 +351,8 @@
                         <table class="table table-bordered table-striped table-hover pivot-table">
                             <thead>
                                 <tr style="background: #000000 !important; color: #ffffff !important;">
+                                    <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Service Area</th>
+                                    <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Sektor</th>
                                     <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Workzone</th>
                                     <th class="text-center" colspan="8" style="letter-spacing: 1px; text-align: center; background: #000000 !important; color: #ffffff !important;">DURASI TIKET OPEN</th>
                                     <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Total</th>
@@ -365,8 +371,34 @@
                                 <?php 
                                 $gt_buckets = array('< 1 jam'=>0, '1-2 jam'=>0, '2-3 jam'=>0, '3-6 jam'=>0, '6-12 jam'=>0, '12-36 jam'=>0, '36-72 jam'=>0, '> 72 jam'=>0);
                                 $gt_total = 0;
-                                foreach($rows as $r): ?>
+
+                                // Pre-calculate rowspans
+                                $sa_spans = [];
+                                $sektor_spans = [];
+                                foreach($rows as $rv) {
+                                    $sa_key = $rv['service_area'];
+                                    $sk_key = $rv['service_area'] . '|' . $rv['sektor'];
+                                    $sa_spans[$sa_key] = (isset($sa_spans[$sa_key]) ? $sa_spans[$sa_key] : 0) + 1;
+                                    $sektor_spans[$sk_key] = (isset($sektor_spans[$sk_key]) ? $sektor_spans[$sk_key] : 0) + 1;
+                                }
+                                $sa_done = [];
+                                $sk_done = [];
+
+                                foreach($rows as $r): 
+                                    $current_sa = $r['service_area'];
+                                    $current_sk = $r['service_area'] . '|' . $r['sektor'];
+                                ?>
                                 <tr>
+                                    <?php if(!isset($sa_done[$current_sa])): ?>
+                                        <td class="text-center" rowspan="<?php echo $sa_spans[$current_sa]; ?>" style="font-weight: 700; text-align: center; vertical-align: middle; background: rgba(255,255,255,0.02); border-bottom: 1px solid var(--mac-border);"><?php echo htmlspecialchars($current_sa); ?></td>
+                                        <?php $sa_done[$current_sa] = true; ?>
+                                    <?php endif; ?>
+
+                                    <?php if(!isset($sk_done[$current_sk])): ?>
+                                        <td class="text-center" rowspan="<?php echo $sektor_spans[$current_sk]; ?>" style="font-weight: 600; text-align: center; vertical-align: middle; background: rgba(255,255,255,0.01); border-bottom: 1px solid var(--mac-border);"><?php echo htmlspecialchars($r['sektor']); ?></td>
+                                        <?php $sk_done[$current_sk] = true; ?>
+                                    <?php endif; ?>
+
                                     <td class="text-center" style="font-weight: 600; text-align: center; vertical-align: middle;"><?php echo htmlspecialchars($r['work_zone']); ?></td>
                                     <?php 
                                     $row_total = 0;
@@ -393,7 +425,7 @@
                             </tbody>
                             <tfoot style="background: #000000 !important; color: #ffffff !important;">
                                 <tr style="background: #000000 !important; color: #ffffff !important;">
-                                    <td class="text-center" style="vertical-align: middle; font-size: 14px; text-align: center; color: #fff; background: #000000 !important;">GRAND TOTAL</td>
+                                    <td class="text-center" colspan="3" style="vertical-align: middle; font-size: 14px; text-align: center; color: #fff; background: #000000 !important;">GRAND TOTAL</td>
                                     <?php foreach($gt_buckets as $bk => $val): ?>
                                         <td class="text-center" style="vertical-align: middle; text-align: center; background: #000000 !important;">
                                             <?php if($val > 0): ?>
@@ -429,6 +461,8 @@
                         <table class="table table-bordered table-striped table-hover pivot-table">
                             <thead>
                                 <tr style="background: #000000 !important; color: #ffffff !important;">
+                                    <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Service Area</th>
+                                    <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Sektor</th>
                                     <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Workzone</th>
                                     <th class="text-center" colspan="8" style="letter-spacing: 1px; text-align: center; background: #000000 !important; color: #ffffff !important;">DURASI TIKET CLOSED</th>
                                     <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Total</th>
@@ -448,8 +482,34 @@
                                 <?php 
                                 $gt_buckets = array('< 1 jam'=>0, '1-2 jam'=>0, '2-3 jam'=>0, '3-6 jam'=>0, '6-12 jam'=>0, '12-36 jam'=>0, '36-72 jam'=>0, '> 72 jam'=>0);
                                 $gt_total = 0;
-                                foreach($rows as $r): ?>
+
+                                // Pre-calculate rowspans
+                                $sa_spans = [];
+                                $sektor_spans = [];
+                                foreach($rows as $rv) {
+                                    $sa_key = $rv['service_area'];
+                                    $sk_key = $rv['service_area'] . '|' . $rv['sektor'];
+                                    $sa_spans[$sa_key] = (isset($sa_spans[$sa_key]) ? $sa_spans[$sa_key] : 0) + 1;
+                                    $sektor_spans[$sk_key] = (isset($sektor_spans[$sk_key]) ? $sektor_spans[$sk_key] : 0) + 1;
+                                }
+                                $sa_done = [];
+                                $sk_done = [];
+
+                                foreach($rows as $r): 
+                                    $current_sa = $r['service_area'];
+                                    $current_sk = $r['service_area'] . '|' . $r['sektor'];
+                                ?>
                                 <tr>
+                                    <?php if(!isset($sa_done[$current_sa])): ?>
+                                        <td class="text-center" rowspan="<?php echo $sa_spans[$current_sa]; ?>" style="font-weight: 700; text-align: center; vertical-align: middle; background: rgba(255,255,255,0.02); border-bottom: 1px solid var(--mac-border);"><?php echo htmlspecialchars($current_sa); ?></td>
+                                        <?php $sa_done[$current_sa] = true; ?>
+                                    <?php endif; ?>
+
+                                    <?php if(!isset($sk_done[$current_sk])): ?>
+                                        <td class="text-center" rowspan="<?php echo $sektor_spans[$current_sk]; ?>" style="font-weight: 600; text-align: center; vertical-align: middle; background: rgba(255,255,255,0.01); border-bottom: 1px solid var(--mac-border);"><?php echo htmlspecialchars($r['sektor']); ?></td>
+                                        <?php $sk_done[$current_sk] = true; ?>
+                                    <?php endif; ?>
+
                                     <td class="text-center" style="font-weight: 600; text-align: center; vertical-align: middle;"><?php echo htmlspecialchars($r['work_zone']); ?></td>
                                     <?php 
                                     $row_total = 0;
@@ -476,7 +536,7 @@
                             </tbody>
                             <tfoot style="background: #000000 !important; color: #ffffff !important;">
                                 <tr style="background: #000000 !important; color: #ffffff !important;">
-                                    <td class="text-center" style="vertical-align: middle; font-size: 14px; text-align: center; color: #fff; background: #000000 !important;">GRAND TOTAL</td>
+                                    <td class="text-center" colspan="3" style="vertical-align: middle; font-size: 14px; text-align: center; color: #fff; background: #000000 !important;">GRAND TOTAL</td>
                                     <?php foreach($gt_buckets as $bk => $val): ?>
                                         <td class="text-center" style="vertical-align: middle; text-align: center; background: #000000 !important;">
                                             <?php if($val > 0): ?>
@@ -546,14 +606,14 @@ var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
 var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
 
 $(document).ready(function() {
-    $('.pivot-table').DataTable({
-        "paging": false,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": false,
-        "autoWidth": false
-    });
+    // $('.pivot-table').DataTable({
+    //     "paging": false,
+    //     "lengthChange": false,
+    //     "searching": false,
+    //     "ordering": true,
+    //     "info": false,
+    //     "autoWidth": false
+    // });
     
     dtDetail = $('#detailTable').DataTable({
         "autoWidth": false,
