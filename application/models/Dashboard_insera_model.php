@@ -36,9 +36,11 @@ class Dashboard_insera_model extends CI_Model {
         $this->_apply_workzone_filter();
         $total = $this->db_lama->count_all_results('insera');
         
+        $this->_apply_workzone_filter();
         $this->db_lama->where_in('ticket_status', $this->open_statuses);
         $open = $this->db_lama->count_all_results('insera');
         
+        $this->_apply_workzone_filter();
         $this->db_lama->where_not_in('ticket_status', $this->open_statuses);
         $closed = $this->db_lama->count_all_results('insera');
         
