@@ -237,6 +237,8 @@
         background: #000000 !important;
         color: #ffffff !important;
         border-color: var(--mac-border) !important;
+        vertical-align: middle !important;
+        text-align: center !important;
     }
 
     .dataTables_wrapper .dataTables_length select {
