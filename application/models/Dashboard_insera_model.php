@@ -142,4 +142,13 @@ class Dashboard_insera_model extends CI_Model {
 
         return $this->db_lama->get('insera')->result();
     }
+
+    public function get_last_update() {
+        $row = $this->db_lama->select('scraped_at')
+                             ->order_by('scraped_at', 'DESC')
+                             ->limit(1)
+                             ->get('insera')
+                             ->row();
+        return $row ? $row->scraped_at : null;
+    }
 }

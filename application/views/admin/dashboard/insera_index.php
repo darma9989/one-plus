@@ -325,6 +325,12 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href="#tab_open" data-toggle="tab" style="font-weight: 700; color: #dd4b39;"><i class="fa fa-folder-open"></i> Distribusi Tiket OPEN</a></li>
         <li><a href="#tab_closed" data-toggle="tab" style="font-weight: 700; color: #00a65a;"><i class="fa fa-check-circle"></i> Distribusi Tiket CLOSED</a></li>
+        <li class="pull-right" style="padding: 10px 15px;">
+            <div style="background: rgba(255,255,255,0.05); border: 1px solid var(--mac-border); border-radius: 50px; padding: 4px 15px; font-size: 11px; color: var(--mac-text-dim);">
+                <i class="fa fa-clock-o" style="color: var(--mac-blue); margin-right: 5px;"></i>
+                Last Update: <span style="color: #fff; font-weight: 700;"><?php echo $last_update ? date('d M Y, H:i', strtotime($last_update)) : '—'; ?></span>
+            </div>
+        </li>
     </ul>
     <div class="tab-content">
         <!-- TAB OPEN -->

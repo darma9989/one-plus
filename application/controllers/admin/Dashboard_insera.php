@@ -13,6 +13,7 @@ class Dashboard_insera extends Admin_Controller {
         $this->data['stats'] = $this->Dashboard_insera_model->get_stats();
         $this->data['pivot_open'] = $this->Dashboard_insera_model->get_pivot_by_category('OPEN');
         $this->data['pivot_closed'] = $this->Dashboard_insera_model->get_pivot_by_category('CLOSED');
+        $this->data['last_update'] = $this->Dashboard_insera_model->get_last_update();
 
         $this->template->load('admin/dashboard/insera_index', $this->data);
     }
