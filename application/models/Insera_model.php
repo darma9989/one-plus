@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Mitra_model extends CI_Model {
+class Insera_model extends CI_Model {
 
     protected $db_db_lama;
 
@@ -12,35 +12,35 @@ class Mitra_model extends CI_Model {
 
     public function get_all() {
         $this->db_db_lama->where('deleted_at IS NULL');
-        return $this->db_db_lama->get('listmitra')->result_array();
+        return $this->db_db_lama->get('insera')->result_array();
     }
 
     public function get_deleted() {
         $this->db_db_lama->where('deleted_at IS NOT NULL');
         $this->db_db_lama->order_by('deleted_at', 'DESC');
-        return $this->db_db_lama->get('listmitra')->result_array();
+        return $this->db_db_lama->get('insera')->result_array();
     }
 
-    public function get_mitra($id) {
-        $this->db_db_lama->where('id_list_mitra', $id);
+    public function get_insera($id) {
+        $this->db_db_lama->where('ticket_id', $id);
         $this->db_db_lama->where('deleted_at IS NULL');
-        return $this->db_db_lama->get('listmitra')->row_array();
+        return $this->db_db_lama->get('insera')->row_array();
     }
 
-    public function get_mitra_deleted($id) {
-        $this->db_db_lama->where('id_list_mitra', $id);
-        return $this->db_db_lama->get('listmitra')->row_array();
+    public function get_insera_deleted($id) {
+        $this->db_db_lama->where('ticket_id', $id);
+        return $this->db_db_lama->get('insera')->row_array();
     }
 
     public function insert($data) {
         $data['created_at'] = date('Y-m-d H:i:s');
-        $result = $this->db_db_lama->insert('listmitra', $data);
+        $result = $this->db_db_lama->insert('insera', $data);
         if ($result) {
             $insert_id = $this->db_db_lama->insert_id();
             $this->load->model('Log_model');
             $this->Log_model->write(array(
                 'module'    => 'MASTER DATA',
-                'sub_module'=> 'MITRA',
+                'sub_module'=> 'INSERA',
                 'item_id'   => $insert_id,
                 'item_name' => json_encode($data),
                 'action'    => 'INSERT'
@@ -50,16 +50,16 @@ class Mitra_model extends CI_Model {
     }
 
     public function update($id, $data) {
-        $old_data = $this->get_mitra($id);
+        $old_data = $this->get_insera($id);
         if (!$old_data) return FALSE;
         $data['updated_at'] = date('Y-m-d H:i:s');
-        $this->db_db_lama->where('id_list_mitra', $id);
-        $result = $this->db_db_lama->update('listmitra', $data);
+        $this->db_db_lama->where('ticket_id', $id);
+        $result = $this->db_db_lama->update('insera', $data);
         if ($result) {
             $this->load->model('Log_model');
             $this->Log_model->write(array(
                 'module'    => 'MASTER DATA',
-                'sub_module'=> 'MITRA',
+                'sub_module'=> 'INSERA',
                 'item_id'   => $id,
                 'item_name' => json_encode($data),
                 'action'    => 'UPDATE',
@@ -71,13 +71,13 @@ class Mitra_model extends CI_Model {
     }
 
     public function delete($id) {
-        $this->db_db_lama->where('id_list_mitra', $id);
-        $result = $this->db_db_lama->update('listmitra', array('deleted_at' => date('Y-m-d H:i:s')));
+        $this->db_db_lama->where('ticket_id', $id);
+        $result = $this->db_db_lama->update('insera', array('deleted_at' => date('Y-m-d H:i:s')));
         if ($result) {
             $this->load->model('Log_model');
             $this->Log_model->write(array(
                 'module'    => 'MASTER DATA',
-                'sub_module'=> 'MITRA',
+                'sub_module'=> 'INSERA',
                 'item_id'   => $id,
                 'item_name' => 'Soft Deleted',
                 'action'    => 'DELETE'
@@ -87,22 +87,22 @@ class Mitra_model extends CI_Model {
     }
 
     public function restore($id) {
-        $this->db_db_lama->where('id_list_mitra', $id);
-        return $this->db_db_lama->update('listmitra', array('deleted_at' => NULL));
+        $this->db_db_lama->where('ticket_id', $id);
+        return $this->db_db_lama->update('insera', array('deleted_at' => NULL));
     }
 
     public function hard_delete($id) {
-        $this->db_db_lama->where('id_list_mitra', $id);
-        return $this->db_db_lama->delete('listmitra');
+        $this->db_db_lama->where('ticket_id', $id);
+        return $this->db_db_lama->delete('insera');
     }
 
     public function insert_batch($data) {
-        $result = $this->db_db_lama->insert_batch('listmitra', $data);
+        $result = $this->db_db_lama->insert_batch('insera', $data);
         if ($result) {
             $this->load->model('Log_model');
             $this->Log_model->write(array(
                 'module'    => 'MASTER DATA',
-                'sub_module'=> 'MITRA',
+                'sub_module'=> 'INSERA',
                 'action'    => 'BATCH_INSERT',
                 'item_name' => count($data) . ' Data Imported via Excel'
             ));
