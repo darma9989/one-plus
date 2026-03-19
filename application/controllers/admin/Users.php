@@ -76,6 +76,7 @@ class Users extends Admin_Controller {
                 'password'  => $this->input->post('password'),
                 'role_id'   => $this->input->post('role_id'),
                 'jabatan_id'=> $this->input->post('jabatan_id') ? $this->input->post('jabatan_id') : NULL,
+                'workzone'  => $this->input->post('workzone') ? $this->input->post('workzone') : NULL,
                 'is_active' => 1
             );
             
@@ -110,6 +111,7 @@ class Users extends Admin_Controller {
                 'no_telp'   => $this->input->post('no_telp'),
                 'role_id'   => $this->input->post('role_id'),
                 'jabatan_id'=> $this->input->post('jabatan_id') ? $this->input->post('jabatan_id') : NULL,
+                'workzone'  => $this->input->post('workzone') ? $this->input->post('workzone') : NULL,
                 'is_active' => $this->input->post('is_active')
             );
             

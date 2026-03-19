@@ -269,6 +269,28 @@
     }
 </style>
 
+<?php 
+    $workzone_group = $this->session->userdata('workzone');
+    if (!$this->session->userdata('is_superadmin') && $workzone_group): 
+        $mapping = array(
+            '1' => 'TRK, TAJ, JWT',
+            '2' => 'MLN, TPE, NNK, SNY',
+            '3' => 'TRD, TBY, LNN, TSL, TLA'
+        );
+        $codes = isset($mapping[$workzone_group]) ? $mapping[$workzone_group] : 'Unknown';
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert" style="background: rgba(10, 132, 255, 0.1); border: 1px solid rgba(10, 132, 255, 0.2); border-radius: 10px; margin-bottom: 20px;">
+            <i class="fa fa-filter" style="color: var(--mac-blue); margin-right: 10px;"></i>
+            <span style="color: #fff; font-weight: 500;">Menampilkan data Ter-Filter untuk Workzone: </span>
+            <span class="label label-info" style="margin-left: 5px; font-weight: 700;"><?php echo $codes; ?></span>
+            <small class="pull-right text-muted" style="margin-top: 3px;">Bersumber dari Group <?php echo $workzone_group; ?></small>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
 <div class="row">
     <div class="col-md-4 col-sm-6 col-xs-12">
         <div class="info-box border-0 shadow-sm" style="border-radius: 8px;">

@@ -11,9 +11,28 @@ class Dashboard_insera_model extends CI_Model {
         $this->db_lama = $this->load->database('db_lama', TRUE);
     }
 
-    public function get_stats() {
-        $total = $this->db_lama->count_all('insera');
+    private function _apply_workzone_filter() {
+        if ($this->session->userdata('is_superadmin')) return;
         
+        $workzone_group = $this->session->userdata('workzone');
+        if (!$workzone_group) return;
+
+        $mapping = array(
+            '1' => array('TRK', 'TAJ', 'JWT'),
+            '2' => array('MLN', 'TPE', 'NNK', 'SNY'),
+            '3' => array('TRD', 'TBY', 'LNN', 'TSL', 'TLA')
+        );
+
+        if (isset($mapping[$workzone_group])) {
+            $this->db_lama->where_in('work_zone', $mapping[$workzone_group]);
+        }
+    }
+
+    public function get_stats() {
+        $this->_apply_workzone_filter();
+        $total = $this->db_lama->count_all_results('insera');
+        
+        $this->_apply_workzone_filter();
         $this->db_lama->where_in('ticket_status', $this->open_statuses);
         $open = $this->db_lama->count_all_results('insera');
         
@@ -45,6 +64,18 @@ class Dashboard_insera_model extends CI_Model {
                    SUM(CASE WHEN $aging_expr >= 72 THEN 1 ELSE 0 END) AS `> 72 jam`
                 FROM insera
                 WHERE scrape_category IS NOT NULL AND scrape_category != ''";
+
+        $workzone_group = $this->session->userdata('workzone');
+        if (!$this->session->userdata('is_superadmin') && $workzone_group) {
+            $mapping = array(
+                '1' => "'TRK', 'TAJ', 'JWT'",
+                '2' => "'MLN', 'TPE', 'NNK', 'SNY'",
+                '3' => "'TRD', 'TBY', 'LNN', 'TSL', 'TLA'"
+            );
+            if (isset($mapping[$workzone_group])) {
+                $sql .= " AND work_zone IN (" . $mapping[$workzone_group] . ")";
+            }
+        }
 
         $status_list = "'" . implode("','", $this->open_statuses) . "'";
         if ($status_type === 'OPEN') {
@@ -79,6 +110,8 @@ class Dashboard_insera_model extends CI_Model {
         $this->db_lama->where('scrape_category', $category);
         if ($work_zone !== 'ALL') {
             $this->db_lama->where('work_zone', $work_zone);
+        } else {
+            $this->_apply_workzone_filter();
         }
 
         if ($status_type === 'OPEN') {

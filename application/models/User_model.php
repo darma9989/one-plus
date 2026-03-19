@@ -11,7 +11,7 @@ class User_model extends CI_Model {
     }
 
     public function get_all($user_id = NULL) {
-        $this->db->select('u.*, r.role_name, j.nama_jabatan');
+        $this->db->select('u.*, r.role_name, j.nama_jabatan, u.workzone');
         $this->db->from('users u');
         $this->db->join('roles r', 'u.role_id = r.id', 'left');
         $this->db->join('jabatan j', 'u.jabatan_id = j.id', 'left');
@@ -26,7 +26,7 @@ class User_model extends CI_Model {
     }
 
     public function get_user($id) {
-        $this->db->select('u.*, r.role_name, j.nama_jabatan');
+        $this->db->select('u.*, r.role_name, j.nama_jabatan, u.workzone');
         $this->db->from('users u');
         $this->db->join('roles r', 'u.role_id = r.id', 'left');
         $this->db->join('jabatan j', 'u.jabatan_id = j.id', 'left');
@@ -98,7 +98,7 @@ class User_model extends CI_Model {
     }
 
     public function get_deleted($user_id = NULL) {
-        $this->db->select('u.*, r.role_name, j.nama_jabatan');
+        $this->db->select('u.*, r.role_name, j.nama_jabatan, u.workzone');
         $this->db->from('users u');
         $this->db->join('roles r', 'u.role_id = r.id', 'left');
         $this->db->join('jabatan j', 'u.jabatan_id = j.id', 'left');

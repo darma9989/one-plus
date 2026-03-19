@@ -313,6 +313,9 @@
                             <span class="status-badge <?php echo $u['role_id'] == 1 ? 'badge-admin' : 'badge-user'; ?>">
                                 <?php echo $u['role_name']; ?>
                             </span>
+                            <?php if($u['workzone']): ?>
+                                <span class="status-badge" style="background: rgba(255, 255, 255, 0.05); color: var(--mac-text-dim); border: 1px solid var(--mac-border); margin-left: 5px;">G<?php echo $u['workzone']; ?></span>
+                            <?php endif; ?>
                             <?php if($u['nama_jabatan']): ?>
                                 <br><small class="text-muted"><i class="fa fa-briefcase"></i> <?php echo $u['nama_jabatan']; ?></small>
                             <?php endif; ?>
@@ -427,7 +430,18 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12" id="statusGroup">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Workzone Assignment</label>
+                                <select name="workzone" id="workzone" class="form-control">
+                                    <option value="">— Group (Superadmin) —</option>
+                                    <option value="1">Group 1 (TRK, TAJ, JWT)</option>
+                                    <option value="2">Group 2 (MLN, TPE, NNK, SNY)</option>
+                                    <option value="3">Group 3 (TRD, TBY, LNN, TSL, TLA)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6" id="statusGroup">
                             <div class="form-group">
                                 <label>Account Status</label>
                                 <select name="is_active" id="is_active" class="form-control">
@@ -502,6 +516,7 @@ function editUser(id){
         $('#pwdHint').text('(leave blank to keep current password)').attr('class', 'text-warning');
         $('#role_id').val(u.role_id);
         $('#jabatan_id').val(u.jabatan_id);
+        $('#workzone').val(u.workzone);
         $('#is_active').val(u.is_active);
         
         var avatarUrl = u.avatar ? BASE_URL + 'uploads/avatars/' + u.avatar : 'https://ui-avatars.com/api/?name=' + encodeURI(u.nama) + '&background=random';

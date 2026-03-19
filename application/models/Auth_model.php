@@ -14,7 +14,7 @@ class Auth_model extends CI_Model {
      * Proses login
      */
     public function login($username, $password, $remember_me = FALSE) {
-        $user = $this->db->select('u.*, r.role_name, r.is_superadmin, r.can_add_user, r.can_view_all_users')
+        $user = $this->db->select('u.*, r.role_name, r.is_superadmin, r.can_add_user, r.can_view_all_users, u.workzone')
                          ->from('users u')
                          ->join('roles r', 'u.role_id = r.id', 'left')
                          ->where('u.username', $username)
@@ -101,7 +101,8 @@ class Auth_model extends CI_Model {
             'role_name'    => $user['role_name'],
             'is_superadmin'=> $user['is_superadmin'],
             'can_add_user' => $user['can_add_user'],
-            'can_view_all_users' => $user['can_view_all_users']
+            'can_view_all_users' => $user['can_view_all_users'],
+            'workzone'     => $user['workzone']
         ));
 
         // Audit log
@@ -122,7 +123,7 @@ class Auth_model extends CI_Model {
         $this->load->helper('cookie');
         $token = get_cookie('remember_token');
         if ($token) {
-            $user = $this->db->select('u.*, r.role_name, r.is_superadmin, r.can_add_user, r.can_view_all_users')
+            $user = $this->db->select('u.*, r.role_name, r.is_superadmin, r.can_add_user, r.can_view_all_users, u.workzone')
                          ->from('users u')
                          ->join('roles r', 'u.role_id = r.id', 'left')
                          ->where('u.remember_token', $token)
@@ -145,7 +146,8 @@ class Auth_model extends CI_Model {
                     'role_name'    => $user['role_name'],
                     'is_superadmin'=> $user['is_superadmin'],
                     'can_add_user' => $user['can_add_user'],
-                    'can_view_all_users' => $user['can_view_all_users']
+                    'can_view_all_users' => $user['can_view_all_users'],
+                    'workzone'     => $user['workzone']
                 ));
                 return TRUE;
             }
