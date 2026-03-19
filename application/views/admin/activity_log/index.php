@@ -1,31 +1,87 @@
 <style>
-    .log-filter-box { background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; padding: 20px; margin-bottom: 25px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    :root {
+        --mac-bg: #1c1c1e;
+        --mac-card: #2c2c2e;
+        --mac-card-header: rgba(44, 44, 46, 0.8);
+        --mac-text: #ffffff;
+        --mac-text-dim: #a1a1a6;
+        --mac-border: #38383a;
+        --mac-blue: #0A84FF;
+        --mac-green: #30D158;
+        --mac-red: #FF453A;
+        --mac-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    body { background-color: var(--mac-bg) !important; color: var(--mac-text) !important; }
+    .content-wrapper { background-color: var(--mac-bg) !important; }
+
+    .log-filter-box { 
+        background: var(--mac-card) !important; 
+        border-radius: 12px; 
+        border: 1px solid var(--mac-border) !important; 
+        padding: 20px; 
+        margin-bottom: 25px; 
+        box-shadow: var(--mac-shadow) !important; 
+        color: var(--mac-text) !important;
+    }
     
-    .event-badge { padding: 4px 12px; border-radius: 6px; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 5px; }
-    .ev-create { background: #ecfdf5; color: #059669; }
-    .ev-update { background: #fffbe6; color: #d97706; }
-    .ev-delete { background: #fef2f2; color: #dc2626; }
-    .ev-login { background: #eff6ff; color: #2563eb; }
-    .ev-logout { background: #f8fafc; color: #475569; }
+    .event-badge { padding: 4px 12px; border-radius: 50px; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 5px; border-width: 1px; border-style: solid; }
+    .ev-create { background: rgba(48, 209, 88, 0.15) !important; color: var(--mac-green); border-color: rgba(48, 209, 88, 0.3) !important; }
+    .ev-update { background: rgba(10, 132, 255, 0.15) !important; color: var(--mac-blue); border-color: rgba(10, 132, 255, 0.3) !important; }
+    .ev-delete { background: rgba(255, 69, 58, 0.15) !important; color: var(--mac-red); border-color: rgba(255, 69, 58, 0.3) !important; }
+    .ev-login { background: rgba(255, 255, 255, 0.1) !important; color: #fff; border-color: rgba(255, 255, 255, 0.2) !important; }
+    .ev-logout { background: rgba(255, 255, 255, 0.05) !important; color: var(--mac-text-dim); border-color: rgba(255, 255, 255, 0.1) !important; }
     
-    .user-actor { display: flex; align-items: center; gap: 10px; }
-    .actor-avatar { width: 32px; height: 32px; background: #3b82f6; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; }
-    
-    .diff-table { width: 100%; border-collapse: separate; border-spacing: 0; }
-    .diff-table th { background: #f8fafc; color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 11px; padding: 12px 15px; border-bottom: 2px solid #e2e8f0; }
-    .diff-table td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; vertical-align: top; font-size: 13px; }
-    .col-attr { font-weight: 600; color: #1e293b; width: 25%; }
-    .col-old { color: #dc2626; background: #fff5f5; width: 37.5%; }
-    .col-new { color: #059669; background: #f0fdf4; font-weight: 600; width: 37.5%; }
-    
-    .raw-json-block { background: #1e293b; color: #94a3b8; padding: 15px; border-radius: 8px; font-family: 'Monaco', 'Consolas', monospace; font-size: 11px; margin-top: 15px; max-height: 250px; overflow: auto; }
+    .form-control { background: #1c1c1e !important; border: 1px solid var(--mac-border) !important; color: #fff !important; }
+
+    /* Table Styling */
+    .box { background: var(--mac-card) !important; border-radius: 12px; border: 1px solid var(--mac-border) !important; overflow: hidden; box-shadow: var(--mac-shadow) !important; }
+    .table { color: var(--mac-text) !important; }
+    #tblLogs thead tr, #tblLogs thead th { background: #000000 !important; color: #fff !important; border-color: var(--mac-border) !important; text-transform: uppercase; font-size: 11px; }
+    .table-hover > tbody > tr:hover { background-color: rgba(255, 255, 255, 0.05) !important; }
+
+    /* Export Buttons Style */
+    .dt-buttons .btn {
+        background: #000000 !important;
+        border: 1px solid var(--mac-border) !important;
+        color: #fff !important;
+        border-radius: 6px !important;
+        padding: 5px 12px !important;
+        margin-right: 5px !important;
+        font-size: 12px !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .dt-buttons .btn:hover {
+        background: #2c2c2e !important;
+        border-color: var(--mac-blue) !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        background: #000000 !important;
+        border: 1px solid var(--mac-border) !important;
+        color: #fff !important;
+        border-radius: 6px !important;
+    }
+
+    /* Modal Analysis */
+    .modal-content { background: #000000 !important; border: 1px solid var(--mac-border) !important; border-radius: 12px !important; color: #fff !important; }
+    .modal-header { background: #000000 !important; border-bottom: 1px solid var(--mac-border) !important; }
+    .modal-body { background: #000000 !important; }
+    .modal-footer { background: #000000 !important; border-top: 1px solid var(--mac-border) !important; }
+
+    .diff-table th { background: rgba(255,255,255,0.05); color: var(--mac-text-dim); border-bottom: 1px solid var(--mac-border); }
+    .diff-table td { border-bottom: 1px solid var(--mac-border); color: #fff; }
+    .col-attr { color: var(--mac-blue); }
+    .col-old { color: var(--mac-red); background: rgba(255, 69, 58, 0.05); }
+    .col-new { color: var(--mac-green); background: rgba(48, 209, 88, 0.05); }
 </style>
 
 <!-- Top Statistics or Filter -->
 <div class="log-filter-box">
     <div class="row">
         <div class="col-md-5">
-            <h3 style="margin:0 0 5px 0; font-weight: 700; color: #1e293b;">Event Monitor</h3>
+            <h3 style="margin:0 0 5px 0; font-weight: 700; color: #fff;">Event Monitor</h3>
             <p class="text-muted small">Real-time stream of system security and data events.</p>
         </div>
         <div class="col-md-12" style="margin-top: 15px;">
@@ -162,8 +218,8 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer bg-gray-light">
-                <button type="button" class="btn btn-primary btn-flat" data-dismiss="modal">Close Investigation</button>
+            <div class="modal-footer border-0" style="background: #000000 !important; padding: 20px;">
+                <button type="button" class="btn btn-flat" style="background: #1c1c1e; color: #fff; border: 1px solid var(--mac-border); border-radius: 8px; padding: 8px 25px; font-weight: 700; transition: 0.3s;" data-dismiss="modal">Close Investigation</button>
             </div>
         </div>
     </div>
@@ -229,7 +285,7 @@ $(function(){
                 className: 'text-center',
                 orderable: false,
                 render: function(data, type, row) {
-                    return data.replace('btn-info', 'btn-default btn-flat').replace('fa-eye', 'fa-search-plus text-primary');
+                    return `<button class="btn btn-xs btn-flat" style="background: rgba(255,255,255,0.05); border: 1px solid var(--mac-border); border-radius: 6px; padding: 4px 10px;" title="Review Detail">${data.replace('btn-info', '').replace('fa-eye', 'fa-search-plus text-primary')}</button>`;
                 }
             }
         ],
@@ -237,8 +293,8 @@ $(function(){
         pageLength: 25,
         dom: '<"row"<"col-sm-6"B><"col-sm-6"f>>rt<"row"<"col-sm-5"i><"col-sm-7"p>>',
         buttons: [
-            { extend: 'excel', className: 'btn btn-default btn-sm btn-flat' },
-            { extend: 'pdf', className: 'btn btn-default btn-sm btn-flat' }
+            { extend: 'excel', className: 'btn btn-flat', text: '<i class="fa fa-file-excel-o text-success"></i> Excel' },
+            { extend: 'pdf', className: 'btn btn-flat', text: '<i class="fa fa-file-pdf-o text-danger"></i> PDF' }
         ]
     });
 

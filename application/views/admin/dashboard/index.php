@@ -1,58 +1,76 @@
 <style>
-    /* Minimalist Professional Styling */
+    :root {
+        --mac-bg: #1c1c1e;
+        --mac-card: #2c2c2e;
+        --mac-card-header: rgba(44, 44, 46, 0.8);
+        --mac-text: #ffffff;
+        --mac-text-dim: #a1a1a6;
+        --mac-border: #38383a;
+        --mac-blue: #0A84FF;
+        --mac-green: #30D158;
+        --mac-red: #FF453A;
+        --mac-yellow: #FF9F0A;
+        --mac-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    body { background: var(--mac-bg) !important; color: var(--mac-text) !important; }
+    .content-wrapper { background: var(--mac-bg) !important; }
+
     .dashboard-container { padding: 5px; }
-    
-    .page-title-box { margin-bottom: 25px; display: flex; align-items: center; justify-content: space-between; }
-    .page-title-box h4 { margin: 0; font-weight: 700; color: #334155; font-size: 20px; }
+    .page-title-box h4 { margin: 0; font-weight: 700; color: #fff; font-size: 20px; }
 
     /* Clean Metric Cards */
     .stat-card { 
-        background: #fff; border-radius: 8px; border: 1px solid #e2e8f0; padding: 20px; 
-        display: flex; align-items: center; gap: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        background: var(--mac-card); border-radius: 12px; border: 1px solid var(--mac-border); padding: 20px; 
+        display: flex; align-items: center; gap: 20px; box-shadow: var(--mac-shadow);
     }
     .stat-icon { 
-        width: 45px; height: 45px; border-radius: 6px; display: flex; align-items: center; 
-        justify-content: center; font-size: 18px;
+        width: 45px; height: 45px; border-radius: 8px; display: flex; align-items: center; 
+        justify-content: center; font-size: 18px; background: rgba(255,255,255,0.05) !important;
     }
-    .stat-info { flex-grow: 1; }
-    .stat-info .label-text { color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px; }
-    .stat-info .value-text { font-size: 24px; font-weight: 700; color: #1e293b; display: block; line-height: 1; }
-
-    .bg-indigo-light { background: #eef2ff; color: #4f46e5; }
-    .bg-emerald-light { background: #ecfdf5; color: #10b981; }
-    .bg-amber-light { background: #fffbeb; color: #f59e0b; }
+    .stat-info .label-text { color: var(--mac-text-dim); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+    .stat-info .value-text { font-size: 26px; font-weight: 700; color: #fff; display: block; line-height: 1; }
 
     /* Refined Content Area */
-    .content-box { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 25px; overflow: hidden; }
-    .content-box-header { padding: 15px 20px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; background: #fff; }
-    .content-box-header h5 { margin: 0; font-weight: 700; color: #334155; font-size: 15px; }
+    .content-box { background: var(--mac-card); border: 1px solid var(--mac-border); border-radius: 12px; margin-bottom: 25px; overflow: hidden; box-shadow: var(--mac-shadow); }
+    .content-box-header { padding: 15px 20px; border-bottom: 1px solid var(--mac-border); display: flex; align-items: center; justify-content: space-between; background: var(--mac-card-header); backdrop-filter: blur(10px); }
+    .content-box-header h5 { margin: 0; font-weight: 700; color: #fff; font-size: 15px; }
     
-    .table-minimal thead th { background: #f8fafc; color: #64748b; font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 12px 15px; border-bottom: 1px solid #e2e8f0; }
-    .table-minimal td { padding: 12px 15px; vertical-align: middle; border-bottom: 1px solid #f1f5f9; color: #475569; font-size: 13px; }
-    .table-minimal tr:last-child td { border-bottom: none; }
+    .table-minimal thead th { background: #000; color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 12px 15px; border-bottom: 1px solid var(--mac-border); }
+    .table-minimal td { padding: 12px 15px; vertical-align: middle; border-bottom: 1px solid var(--mac-border); color: #fff; font-size: 13px; }
+    .table-minimal tr:hover { background: rgba(255,255,255,0.03); }
 
-    .badge-status { padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; display: inline-block; }
-    .status-create { background: #dcfce7; color: #166534; }
-    .status-update { background: #dbeafe; color: #1e40af; }
-    .status-delete { background: #fee2e2; color: #991b1b; }
-    .status-default { background: #f1f5f9; color: #475569; }
+    /* Unified Badges */
+    .badge-status { 
+        padding: 4px 12px; 
+        border-radius: 50px; 
+        font-size: 10px; 
+        font-weight: 700; 
+        display: inline-block; 
+        text-transform: uppercase;
+        border: 1px solid transparent;
+    }
+    
+    .status-create { background: rgba(48, 209, 88, 0.15) !important; color: var(--mac-green) !important; border-color: rgba(48, 209, 88, 0.3) !important; }
+    .status-update { background: rgba(10, 132, 255, 0.15) !important; color: var(--mac-blue) !important; border-color: rgba(10, 132, 255, 0.3) !important; }
+    .status-delete { background: rgba(255, 69, 58, 0.15) !important; color: var(--mac-red) !important; border-color: rgba(255, 69, 58, 0.3) !important; }
+    .status-default { background: rgba(255, 255, 255, 0.1) !important; color: #fff !important; border-color: rgba(255, 255, 255, 0.2) !important; }
 
     /* Sidebar Widgets */
-    .widget-panel { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px; margin-bottom: 20px; }
-    .widget-heading { font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
+    .widget-panel { background: var(--mac-card); border: 1px solid var(--mac-border); border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: var(--mac-shadow); }
+    .widget-heading { font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
     
-    .check-list { list-style: none; padding: 0; margin: 0; }
-    .check-list li { display: flex; justify-content: space-between; padding: 10px 0; font-size: 13px; border-bottom: 1px solid #f8fafc; }
-    .check-list li:last-child { border-bottom: none; }
-    .check-list .key { color: #64748b; }
-    .check-list .val { font-weight: 600; color: #1e293b; }
+    .check-list li { border-bottom: 1px solid var(--mac-border); color: #fff; }
+    .check-list .key { color: var(--mac-text-dim); }
+    .check-list .val { font-weight: 600; color: #fff; }
 
     .nav-btn { 
-        display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 6px; 
-        color: #475569; text-decoration: none !important; transition: all 0.2s; font-size: 13px; font-weight: 500;
+        display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 8px; 
+        color: #fff; text-decoration: none !important; transition: all 0.2s; font-size: 13px; font-weight: 500;
+        background: rgba(255,255,255,0.03); margin-bottom: 8px; border: 1px solid transparent;
     }
-    .nav-btn:hover { background: #f8fafc; color: #2563eb; padding-left: 15px; }
-    .nav-btn i { font-size: 14px; width: 18px; text-align: center; color: #94a3b8; }
+    .nav-btn:hover { background: rgba(255,255,255,0.08); border-color: var(--mac-blue); padding-left: 17px; }
+    .nav-btn i { font-size: 14px; width: 18px; text-align: center; color: var(--mac-blue); }
 </style>
 
 <script src="<?php echo base_url('assets/starter_kit/vendor/chart.js'); ?>"></script>
@@ -69,7 +87,12 @@
         <?php foreach ($widgets as $w): if ($w['type'] == 'stat_box'): ?>
         <div class="col-md-<?php echo $w['grid_size']; ?>" style="margin-bottom: 20px;">
             <div class="stat-card">
-                <div class="stat-icon <?php echo strpos($w['color'], '-') !== false ? 'bg-'.$w['color'] : ''; ?>" style="<?php echo strpos($w['color'], '-') === false ? 'background:'.$w['color'].'; color:#fff;' : ''; ?>">
+                <div class="stat-icon" style="color: <?php 
+                    if(strpos($w['color'], 'indigo') !== false) echo 'var(--mac-blue)';
+                    elseif(strpos($w['color'], 'emerald') !== false) echo 'var(--mac-green)';
+                    elseif(strpos($w['color'], 'amber') !== false) echo 'var(--mac-yellow)';
+                    else echo $w['color'];
+                ?>;">
                     <i class="fa <?php echo $w['icon']; ?>"></i>
                 </div>
                 <div class="stat-info">
@@ -133,7 +156,7 @@
             <div class="content-box">
                 <div class="content-box-header">
                     <h5>Recent System Activities (Global Audit)</h5>
-                    <a href="<?php echo base_url('admin/activity_log'); ?>" class="btn btn-default btn-xs" style="border-radius:4px; font-weight:600;">View Full Audit</a>
+                    <a href="<?php echo base_url('admin/activity_log'); ?>" class="btn btn-flat btn-xs" style="border-radius:6px; background: #000; color: #fff; border: 1px solid var(--mac-border); padding: 4px 12px; font-weight:600;">View Full Audit</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-minimal no-margin">

@@ -1,48 +1,65 @@
 <!-- Nestable CSS -->
 <link rel="stylesheet" href="<?php echo base_url('assets/starter_kit/vendor/jquery.nestable.min.css'); ?>">
 <style>
+    :root {
+        --mac-bg: #1c1c1e;
+        --mac-card: #2c2c2e;
+        --mac-card-header: rgba(44, 44, 46, 0.8);
+        --mac-text: #ffffff;
+        --mac-text-dim: #a1a1a6;
+        --mac-border: #38383a;
+        --mac-blue: #0A84FF;
+        --mac-green: #30D158;
+        --mac-red: #FF453A;
+        --mac-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    body { background: var(--mac-bg) !important; color: var(--mac-text) !important; }
+    .content-wrapper { background: var(--mac-bg) !important; }
+
     .dd { max-width: 100%; }
-    .dd-list .dd-item > button { height: 32px; width: 33px; font-size: 18px; margin: 4px 0; }
+    .dd-list .dd-item > button { height: 32px; width: 33px; font-size: 18px; margin: 4px 0; color: #fff; }
     .dd-handle {
         height: 44px;
         padding: 10px 18px;
-        background: #fff;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
+        background: var(--mac-card) !important;
+        border: 1px solid var(--mac-border) !important;
+        border-radius: 8px;
         font-weight: 600;
-        color: #334155;
+        color: var(--mac-text) !important;
         cursor: move;
         transition: all 0.2s;
         display: flex;
         align-items: center;
     }
-    .dd-handle:hover { border-color: #3b82f6; color: #3b82f6; background: #f8fafc; }
-    .dd-handle i { font-size: 16px; margin-right: 12px; width: 20px; text-align: center; color: #64748b; }
-    .dd-item:hover > .dd-handle i { color: #3b82f6; }
+    .dd-handle:hover { border-color: var(--mac-blue) !important; background: rgba(255,255,255,0.05) !important; }
+    .dd-handle i { font-size: 16px; margin-right: 12px; width: 20px; text-align: center; color: var(--mac-blue); }
     
     .menu-actions { margin-left: auto; display: flex; align-items: center; gap: 5px; }
-    .menu-status-pill { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 10px; }
-    .status-active { background-color: #22c55e; box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1); }
-    .status-inactive { background-color: #ef4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1); }
+    .menu-status-pill { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 12px; }
+    .status-active { background-color: var(--mac-green); box-shadow: 0 0 8px var(--mac-green); }
+    .status-inactive { background-color: var(--mac-red); box-shadow: 0 0 8px var(--mac-red); }
 
     .btn-menu-action { 
-        width: 28px; height: 28px; padding: 0; line-height: 28px; 
-        border-radius: 4px; border: 1px solid #e2e8f0; background: #fff; 
-        color: #64748b; transition: all 0.2s;
+        width: 32px; height: 32px; padding: 0; line-height: 32px; 
+        border-radius: 6px; border: 1px solid var(--mac-border); background: rgba(255,255,255,0.05); 
+        color: #fff; transition: all 0.2s;
     }
-    .btn-menu-action:hover { background: #f1f5f9; color: #1e293b; border-color: #cbd5e1; }
-    .btn-menu-edit:hover { color: #f59e0b; border-color: #f59e0b; background: #fffbeb; }
-    .btn-menu-delete:hover { color: #ef4444; border-color: #ef4444; background: #fef2f2; }
+    .btn-menu-action:hover { background: rgba(255,255,255,0.1); border-color: var(--mac-blue); }
 
-    .info-card { background: #fff; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0; }
-    .info-card h4 { font-weight: 700; color: #1e293b; margin-bottom: 15px; }
-    .info-card ul { padding-left: 20px; color: #64748b; font-size: 13px; }
+    .box { background: var(--mac-card) !important; border-radius: 12px; border: 1px solid var(--mac-border) !important; overflow: hidden; box-shadow: var(--mac-shadow); }
+    .box-header { background: var(--mac-card-header) !important; border-bottom: 1px solid var(--mac-border) !important; backdrop-filter: blur(10px); }
+    .box-title { color: #fff !important; font-weight: 700 !important; }
+
+    .info-card { background: var(--mac-card); border-radius: 12px; padding: 20px; border: 1px solid var(--mac-border); box-shadow: var(--mac-shadow); }
+    .info-card h4 { font-weight: 700; color: #fff; margin-bottom: 15px; }
+    .info-card ul { padding-left: 20px; color: var(--mac-text-dim); font-size: 13px; }
     .info-card li { margin-bottom: 10px; }
 
     .icon-preview-box {
         width: 45px; height: 45px; line-height: 45px; text-align: center;
-        background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;
-        font-size: 20px; color: #3b82f6;
+        background: #000; border: 1px solid var(--mac-border); border-radius: 8px;
+        font-size: 20px; color: var(--mac-blue);
     }
 </style>
 
@@ -92,11 +109,11 @@
                     </ol>
                 </div>
             </div>
-            <div class="box-footer bg-gray-light" id="orderFooter" style="display:none; padding:15px;">
+            <div class="box-footer" id="orderFooter" style="display:none; padding:15px; background: #000; border-top: 1px solid var(--mac-border);">
                 <div class="pull-left text-orange" style="margin-top: 5px;">
                     <i class="fa fa-warning"></i> <strong>Configuration changed!</strong> Save to apply new order.
                 </div>
-                <button class="btn btn-success btn-flat pull-right" id="btnSaveOrder"><i class="fa fa-save"></i> Save Hierarchy Plan</button>
+                <button class="btn btn-flat pull-right" id="btnSaveOrder" style="background: var(--mac-green); color: #fff; border-radius: 8px; padding: 6px 20px; font-weight: 700;"><i class="fa fa-save"></i> Save Hierarchy Plan</button>
             </div>
         </div>
     </div>
@@ -123,13 +140,13 @@
 <div class="modal fade" id="modalMenu">
     <div class="modal-dialog">
         <div class="modal-content border-0">
-            <div class="modal-header bg-primary">
-                <button type="button" class="close" data-dismiss="modal" style="color:#fff;">&times;</button>
-                <h4 class="modal-title" id="menuModalTitle" style="color:#fff; font-weight: 600;">Menu Configuration</h4>
+            <div class="modal-header shadow-sm" style="border:0; background: #000 !important; color: #ffffff !important;">
+                <button type="button" class="close" data-dismiss="modal" style="color:#fff; opacity: 1;">&times;</button>
+                <h4 class="modal-title" id="menuModalTitle" style="color:#fff; font-weight: 700;">Menu Configuration</h4>
             </div>
             <form id="formMenu">
                 <input type="hidden" name="id" id="menuId">
-                <div class="modal-body" style="padding: 25px;">
+                <div class="modal-body" style="padding: 25px; background: #000;">
                     <div class="form-group">
                         <label>Display Label <span class="text-danger">*</span></label>
                         <input type="text" name="menu_name" id="menuName" class="form-control" placeholder="Dashboard, Users, etc." required>
@@ -182,9 +199,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer bg-gray-light">
-                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-save"></i> Save Configuration</button>
+                <div class="modal-footer border-0" style="background: #000 !important; padding: 20px;">
+                    <button type="button" class="btn btn-flat" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--mac-border); border-radius: 8px; padding: 8px 20px;" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-flat" style="background: var(--mac-blue); color: #fff; border-radius: 8px; padding: 8px 25px; font-weight: 700;"><i class="fa fa-save"></i> Save Configuration</button>
                 </div>
             </form>
         </div>

@@ -1,10 +1,240 @@
 <style>
-    .info-box-text { text-transform: uppercase; font-weight: 600; font-size: 11px; color: #777; }
-    .info-box-number { font-size: 20px; font-weight: 700; }
-    .user-avatar-sm { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #eee; margin-right: 10px; }
-    .user-avatar-lg { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #eee; margin: 0 auto 15px auto; display: block; object-fit: cover; }
-    .status-badge { padding: 4px 8px; border-radius: 50px; font-weight: 600; font-size: 10px; text-transform: uppercase; }
-    .btn-action-group .btn { border-radius: 4px; margin: 0 2px; }
+    :root {
+        --mac-bg: #1c1c1e;
+        --mac-card: #2c2c2e;
+        --mac-card-header: rgba(44, 44, 46, 0.8);
+        --mac-text: #ffffff;
+        --mac-text-dim: #a1a1a6;
+        --mac-border: #38383a;
+        --mac-blue: #0A84FF;
+        --mac-green: #30D158;
+        --mac-red: #FF453A;
+        --mac-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    body {
+        background-color: var(--mac-bg) !important;
+        color: var(--mac-text) !important;
+    }
+
+    .content-wrapper {
+        background-color: var(--mac-bg) !important;
+    }
+
+    /* Modern Info Box */
+    .info-box {
+        background: var(--mac-card) !important;
+        border: 1px solid var(--mac-border) !important;
+        border-radius: 12px !important;
+        box-shadow: var(--mac-shadow) !important;
+        color: var(--mac-text) !important;
+        overflow: hidden;
+    }
+
+    .info-box-icon {
+        background: rgba(255, 255, 255, 0.05) !important;
+        color: #fff !important;
+    }
+
+    .info-box-text { 
+        text-transform: uppercase; 
+        font-weight: 600; 
+        font-size: 11px; 
+        color: var(--mac-text-dim) !important; 
+    }
+    
+    .info-box-number { 
+        font-size: 24px; 
+        font-weight: 700; 
+        color: var(--mac-text) !important;
+    }
+
+    /* Modern Card Layout */
+    .box {
+        background: var(--mac-card) !important;
+        border: 1px solid var(--mac-border) !important;
+        border-radius: 12px !important;
+        box-shadow: var(--mac-shadow) !important;
+        overflow: hidden;
+        color: var(--mac-text) !important;
+    }
+
+    .box-header {
+        background: var(--mac-card-header) !important;
+        border-bottom: 1px solid var(--mac-border) !important;
+        backdrop-filter: blur(10px);
+        padding: 15px 20px !important;
+    }
+
+    .box-title {
+        color: var(--mac-text) !important;
+        font-weight: 700 !important;
+    }
+
+    .user-avatar-sm { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid var(--mac-border); margin-right: 10px; }
+    .user-avatar-lg { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--mac-border); margin: 0 auto 15px auto; display: block; object-fit: cover; }
+    
+    .status-badge { 
+        padding: 4px 12px; 
+        border-radius: 50px; 
+        font-weight: 700; 
+        font-size: 10px; 
+        text-transform: uppercase; 
+        letter-spacing: 0.5px;
+        display: inline-block;
+    }
+    
+    .badge-active { background: rgba(48, 209, 88, 0.15) !important; color: var(--mac-green) !important; border: 1px solid rgba(48, 209, 88, 0.3); }
+    .badge-blocked { background: rgba(255, 69, 58, 0.15) !important; color: var(--mac-red) !important; border: 1px solid rgba(255, 69, 58, 0.3); }
+    .badge-admin { background: rgba(10, 132, 255, 0.15) !important; color: var(--mac-blue) !important; border: 1px solid rgba(10, 132, 255, 0.3); }
+    .badge-user { background: rgba(255, 255, 255, 0.1) !important; color: #fff !important; border: 1px solid rgba(255, 255, 255, 0.2); }
+
+    /* Table Styling */
+    .table {
+        color: var(--mac-text) !important;
+        border-color: var(--mac-border) !important;
+    }
+
+    /* Hitam Menyala Header */
+    #tblUsers thead tr, #tblUsers thead th {
+        background: #000000 !important;
+        color: #ffffff !important;
+        border-color: var(--mac-border) !important;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+    }
+
+    .table-hover > tbody > tr:hover {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    /* DataTable Controls */
+    .dataTables_wrapper .dataTables_filter input {
+        background: #000000 !important;
+        border: 1px solid var(--mac-border) !important;
+        color: #fff !important;
+        border-radius: 6px !important;
+        padding: 5px 10px !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .pagination > li > a {
+        background: #000000 !important;
+        border: 1px solid var(--mac-border) !important;
+        color: #fff !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .pagination > li.active > a {
+        background: #444446 !important;
+        border-color: #444446 !important;
+    }
+
+    /* Style for Export Buttons (Excel, PDF, Print) */
+    .dt-buttons .btn {
+        background: #000000 !important;
+        border: 1px solid var(--mac-border) !important;
+        color: #fff !important;
+        border-radius: 6px !important;
+        padding: 5px 12px !important;
+        margin-right: 5px !important;
+        font-size: 12px !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .dt-buttons .btn:hover {
+        background: #2c2c2e !important;
+        border-color: var(--mac-blue) !important;
+    }
+
+    /* Modal Styling */
+    .modal-content {
+        background: #000000 !important;
+        border: 1px solid var(--mac-border) !important;
+        border-radius: 12px !important;
+        color: #fff !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.8) !important;
+    }
+
+    .modal-header {
+        background: #000000 !important;
+        border-bottom: 1px solid var(--mac-border) !important;
+        padding: 20px 25px !important;
+    }
+
+    .modal-body {
+        background: #000000 !important;
+        padding: 25px !important;
+    }
+
+    .modal-footer {
+        background: #000000 !important;
+        border-top: 1px solid var(--mac-border) !important;
+    }
+
+    .form-control {
+        background: #1c1c1e !important;
+        border: 1px solid var(--mac-border) !important;
+        color: #fff !important;
+        border-radius: 8px !important;
+        padding: 10px 12px !important;
+        height: auto !important;
+    }
+
+    .form-control:focus {
+        border-color: var(--mac-blue) !important;
+        box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2) !important;
+    }
+
+    label {
+        color: var(--mac-text-dim) !important;
+        font-weight: 600 !important;
+        font-size: 12px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .input-group-addon {
+        background: #2c2c2e !important;
+        border: 1px solid var(--mac-border) !important;
+        color: #fff !important;
+    }
+
+    hr {
+        border-top: 1px solid var(--mac-border) !important;
+        margin: 20px 0 !important;
+    }
+
+    .text-info { color: var(--mac-blue) !important; }
+    .text-muted { color: var(--mac-text-dim) !important; }
+
+    .modal-body {
+        background: #000000 !important;
+    }
+
+    .modal-footer {
+        background: #000000 !important;
+        border-top: 1px solid var(--mac-border) !important;
+    }
+
+    .form-control {
+        background: #1c1c1e !important;
+        border: 1px solid var(--mac-border) !important;
+        color: #fff !important;
+        border-radius: 6px !important;
+    }
+
+    label {
+        color: var(--mac-text-dim) !important;
+        font-weight: 600 !important;
+        font-size: 11px;
+        text-transform: uppercase;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--mac-bg); }
+    ::-webkit-scrollbar-thumb { background: #3a3a3c; border-radius: 10px; }
 </style>
 
 <!-- Summary Widgets -->
@@ -38,12 +268,12 @@
     </div>
 </div>
 
-<div class="box box-primary border-0 shadow-sm">
+<div class="box border-0 shadow-sm">
     <div class="box-header with-border">
-        <h3 class="box-title" style="font-weight: 700;"><i class="fa fa-th-list"></i> User Directory</h3>
+        <h3 class="box-title" style="font-weight: 700;"><i class="fa fa-th-list" style="color: var(--mac-blue);"></i> User Directory</h3>
         <div class="box-tools">
             <?php if (isset($can_add_user) && $can_add_user): ?>
-            <button class="btn btn-primary btn-flat" onclick="showAddModal()"><i class="fa fa-plus"></i> Add New User</button>
+            <button class="btn btn-sm btn-flat" style="background: var(--mac-blue); color: #fff; border-radius: 6px;" onclick="showAddModal()"><i class="fa fa-plus"></i> Add New User</button>
             <?php endif; ?>
         </div>
     </div>
@@ -51,7 +281,7 @@
         <div class="table-responsive">
             <table id="tblUsers" class="table table-hover no-margin" style="font-size:13px; width: 100%;">
                 <thead>
-                    <tr class="bg-gray-light">
+                    <tr>
                         <th width="30">#</th>
                         <th>User Profile</th>
                         <th>Email & Contact</th>
@@ -80,15 +310,15 @@
                             <?php if($u['no_telp']): ?><i class="fa fa-phone text-muted"></i> <?php echo $u['no_telp']; ?><?php endif; ?>
                         </td>
                         <td class="align-middle">
-                            <span class="label bg-blue-active"><?php echo $u['role_name']; ?></span>
+                            <span class="status-badge <?php echo $u['role_id'] == 1 ? 'badge-admin' : 'badge-user'; ?>">
+                                <?php echo $u['role_name']; ?>
+                            </span>
                             <?php if($u['nama_jabatan']): ?>
                                 <br><small class="text-muted"><i class="fa fa-briefcase"></i> <?php echo $u['nama_jabatan']; ?></small>
                             <?php endif; ?>
                         </td>
                         <td class="align-middle">
-                            <?php if ($u['is_blocked']): ?>
-                                <span class="status-badge bg-red-active text-white">Blocked / Locked</span>
-                            <?php elseif ($u['is_active']): ?>
+                            <?php if ($u['is_active']): ?>
                                 <span class="status-badge bg-green-active text-white">Active</span>
                             <?php else: ?>
                                 <span class="status-badge bg-gray-active text-white">Inactive</span>
@@ -98,12 +328,12 @@
                             <?php echo $u['last_login'] ? date('d M Y, H:i', strtotime($u['last_login'])) : '<span class="text-muted">Neverlogged in</span>'; ?>
                         </td>
                         <td class="text-right align-middle btn-action-group">
-                            <button class="btn btn-xs btn-default btn-flat" title="Edit Profile" onclick="editUser(<?php echo $u['id']; ?>)"><i class="fa fa-pencil"></i></button>
-                            <button class="btn btn-xs btn-default btn-flat" title="Reset Password" onclick="resetPwd(<?php echo $u['id']; ?>)"><i class="fa fa-key text-warning"></i></button>
-                            <button class="btn btn-xs btn-default btn-flat" title="<?php echo $u['is_blocked'] ? 'Unlock Account' : 'Block Account'; ?>" onclick="toggleBlock(<?php echo $u['id']; ?>)">
+                            <button class="btn btn-xs btn-flat" style="background: rgba(255,255,255,0.05); border: 1px solid var(--mac-border); color: #fff;" title="Edit Profile" onclick="editUser(<?php echo $u['id']; ?>)"><i class="fa fa-pencil text-warning"></i></button>
+                            <button class="btn btn-xs btn-flat" style="background: rgba(255,255,255,0.05); border: 1px solid var(--mac-border); color: #fff;" title="Reset Password" onclick="resetPwd(<?php echo $u['id']; ?>)"><i class="fa fa-key text-warning"></i></button>
+                            <button class="btn btn-xs btn-flat" style="background: rgba(255,255,255,0.05); border: 1px solid var(--mac-border); color: #fff;" title="<?php echo $u['is_blocked'] ? 'Unlock Account' : 'Block Account'; ?>" onclick="toggleBlock(<?php echo $u['id']; ?>)">
                                 <i class="fa fa-<?php echo $u['is_blocked'] ? 'unlock text-success' : 'ban text-danger'; ?>"></i>
                             </button>
-                            <button class="btn btn-xs btn-default btn-flat" title="Delete Account" onclick="deleteUser(<?php echo $u['id']; ?>)"><i class="fa fa-trash text-red"></i></button>
+                            <button class="btn btn-xs btn-flat" style="background: rgba(255,255,255,0.05); border: 1px solid var(--mac-border); color: #fff;" title="Delete Account" onclick="deleteUser(<?php echo $u['id']; ?>)"><i class="fa fa-trash text-red"></i></button>
                         </td>
                     </tr>
                     <?php endforeach; endif; ?>
@@ -116,10 +346,10 @@
 <!-- Modal User -->
 <div class="modal fade" id="modalUser">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <button type="button" class="close" data-dismiss="modal" style="color:#fff;">&times;</button>
-                <h4 class="modal-title" style="color:#fff;" id="modalTitle">User Account</h4>
+        <div class="modal-content border-0">
+            <div class="modal-header shadow-sm" style="border:0; background: #000000 !important; color: #ffffff !important;">
+                <button type="button" class="close" data-dismiss="modal" style="color:#fff; opacity: 1;">&times;</button>
+                <h4 class="modal-title" style="color:#fff; font-weight: 700;" id="modalTitle">User Account</h4>
             </div>
             <form id="formUser" enctype="multipart/form-data">
                 <input type="hidden" name="id" id="userId">
@@ -128,7 +358,7 @@
                     <div class="text-center">
                         <img id="imgAvatarPreview" src="https://ui-avatars.com/api/?name=User&background=random" class="user-avatar-lg">
                         <input type="file" name="avatar" id="inputAvatar" class="hidden" accept="image/*">
-                        <button type="button" class="btn btn-default btn-xs btn-flat" onclick="$('#inputAvatar').click()"><i class="fa fa-camera"></i> Change Avatar</button>
+                        <button type="button" class="btn btn-flat" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--mac-border); border-radius: 6px; padding: 5px 15px; font-size: 11px;" onclick="$('#inputAvatar').click()"><i class="fa fa-camera"></i> Change Avatar</button>
                     </div>
                     
                     <hr>
@@ -208,9 +438,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer bg-gray-light">
-                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary btn-flat" id="btnSave"><i class="fa fa-save"></i> Save Account</button>
+                <div class="modal-footer border-0" style="background: #000000 !important; padding: 20px;">
+                    <button type="button" class="btn btn-flat" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--mac-border); border-radius: 8px; padding: 8px 20px;" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-flat" style="background: var(--mac-blue); color: #fff; border-radius: 8px; padding: 8px 25px; font-weight: 700;" id="btnSave"><i class="fa fa-save"></i> Save Account</button>
                 </div>
             </form>
         </div>
@@ -224,9 +454,9 @@ $(function(){
         autoWidth: false,
         dom: '<"row"<"col-sm-6"B><"col-sm-6"f>>rt<"row"<"col-sm-5"i><"col-sm-7"p>>',
         buttons: [
-            { extend: 'excel', className: 'btn btn-default btn-sm btn-flat' },
-            { extend: 'pdf', className: 'btn btn-default btn-sm btn-flat' },
-            { extend: 'print', className: 'btn btn-default btn-sm btn-flat' }
+            { extend: 'excel', className: 'btn btn-flat', text: '<i class="fa fa-file-excel-o text-success"></i> Excel' },
+            { extend: 'pdf', className: 'btn btn-flat', text: '<i class="fa fa-file-pdf-o text-danger"></i> PDF' },
+            { extend: 'print', className: 'btn btn-flat', text: '<i class="fa fa-print"></i> Print' }
         ]
     });
 
@@ -351,9 +581,11 @@ function resetPwd(id){
         input: 'password',
         inputPlaceholder: 'Type new password...',
         showCancelButton: true,
-        confirmButtonColor: '#3c8dbc',
+        confirmButtonColor: '#0A84FF',
         confirmButtonText: 'Update Now!',
-        cancelButtonText: 'Cancel'
+        cancelButtonText: 'Cancel',
+        background: '#1c1c1e',
+        color: '#fff'
     }).then(function(result){
         if(result.value){
             $.post(BASE_URL+'admin/users/reset_password', {id:id, new_password:result.value}, function(res){

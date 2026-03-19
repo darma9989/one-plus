@@ -102,6 +102,74 @@
         border-color: #444446 !important;
     }
 
+    /* Style for Export Buttons (Excel, PDF, Print) */
+    .dt-buttons .btn {
+        background: #000000 !important;
+        border: 1px solid var(--mac-border) !important;
+        color: #fff !important;
+        border-radius: 6px !important;
+        padding: 5px 12px !important;
+        margin-right: 5px !important;
+        font-size: 12px !important;
+        transition: all 0.2s ease !important;
+    }
+
+    /* Modal Styling - Dark Mode */
+    .modal-content {
+        background: #000000 !important;
+        border: 1px solid var(--mac-border) !important;
+        border-radius: 12px !important;
+        color: #fff !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.8) !important;
+    }
+
+    .modal-header {
+        background: #000000 !important;
+        border-bottom: 1px solid var(--mac-border) !important;
+        padding: 20px 25px !important;
+    }
+
+    .modal-body {
+        background: #000000 !important;
+        padding: 25px !important;
+    }
+
+    .modal-footer {
+        background: #000000 !important;
+        border-top: 1px solid var(--mac-border) !important;
+    }
+
+    .form-control {
+        background: #1c1c1e !important;
+        border: 1px solid var(--mac-border) !important;
+        color: #fff !important;
+        border-radius: 8px !important;
+        padding: 10px 12px !important;
+        height: auto !important;
+    }
+
+    .form-control:focus {
+        border-color: var(--mac-blue) !important;
+        box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2) !important;
+    }
+
+    label {
+        color: var(--mac-text-dim) !important;
+        font-weight: 600 !important;
+        font-size: 12px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        margin-bottom: 8px !important;
+    }
+
+    hr {
+        border-top: 1px solid var(--mac-border) !important;
+    }
+
+    .text-muted {
+        color: var(--mac-text-dim) !important;
+    }
+
     /* Modal Styling - Black Theme */
     .modal-content {
         background: #0000   00 !important;
@@ -352,9 +420,10 @@
                         <td class="align-middle"><?php echo htmlspecialchars($r['description_urgensi']); ?></td>
                         <td class="align-middle"><?php echo htmlspecialchars($r['scraped_at']); ?></td>
                         <td class="align-middle"><?php echo htmlspecialchars($r['scrape_category']); ?></td>
-                        <td class="text-center align-middle" style="white-space: nowrap;">
-                            <button class="btn btn-xs btn-flat" style="background: rgba(255,255,255,0.05); border: 1px solid var(--mac-border); color: var(--mac-text);" onclick="editData(<?php echo $r['ticket_id']; ?>)" title="Edit"><i class="fa fa-pencil text-warning"></i></button>
-                            <button class="btn btn-xs btn-flat" style="background: rgba(255,255,255,0.05); border: 1px solid var(--mac-border); color: var(--mac-text);" onclick="deleteData(<?php echo $r['ticket_id']; ?>)" title="Hapus"><i class="fa fa-trash text-danger"></i></button>
+                        <td class="text-right align-middle btn-action-group">
+                            <button class="btn btn-xs" title="View Detail" onclick="viewDetail(<?php echo $r['ticket_id']; ?>)"><i class="fa fa-search-plus text-primary"></i></button>
+                            <button class="btn btn-xs" title="Edit Data" onclick="editData(<?php echo $r['ticket_id']; ?>)"><i class="fa fa-pencil text-warning"></i></button>
+                            <button class="btn btn-xs" title="Delete Data" onclick="deleteData(<?php echo $r['ticket_id']; ?>)"><i class="fa fa-trash text-danger"></i></button>
                         </td>
                     </tr>
                     <?php endforeach; endif; ?>
@@ -700,9 +769,9 @@
                         <input type="text" name="scrape_category" id="scrape_category" class="form-control" required>
                     </div>
                 </div>
-                <div class="modal-footer border-0" style="background: #000000 !important;">
-                    <button type="button" class="btn btn-default btn-flat" style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-flat" style="background: var(--mac-blue); color: #fff; border-radius: 6px;"><i class="fa fa-save"></i> Simpan</button>
+                <div class="modal-footer border-0" style="background: #000000 !important; padding: 20px;">
+                    <button type="button" class="btn btn-flat" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--mac-border); border-radius: 8px; padding: 8px 20px;" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-flat" style="background: var(--mac-blue); color: #fff; border-radius: 8px; padding: 8px 25px; font-weight: 700;"><i class="fa fa-save"></i> Save Changes</button>
                 </div>
             </form>
         </div>
@@ -733,9 +802,9 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer border-0" style="background: #000000 !important;">
-                <button type="button" class="btn btn-default btn-flat" style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;" data-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-success btn-flat" id="btnProcessImport" style="display:none; border-radius: 6px;"><i class="fa fa-check"></i> Simpan Semua Data</button>
+            <div class="modal-footer border-0" style="background: #000000 !important; padding: 20px;">
+                <button type="button" class="btn btn-flat" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--mac-border); border-radius: 8px; padding: 8px 20px;" data-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-flat" id="btnProcessImport" style="display:none; background: var(--mac-green); color: #fff; border-radius: 8px; padding: 8px 25px; font-weight: 700;"><i class="fa fa-check"></i> Simpan Semua Data</button>
             </div>
         </div>
     </div>

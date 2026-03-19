@@ -1,45 +1,54 @@
 <style>
+    :root {
+        --mac-bg: #1c1c1e;
+        --mac-card: #2c2c2e;
+        --mac-card-header: rgba(44, 44, 46, 0.8);
+        --mac-text: #ffffff;
+        --mac-text-dim: #a1a1a6;
+        --mac-border: #38383a;
+        --mac-blue: #0A84FF;
+        --mac-green: #30D158;
+        --mac-red: #FF453A;
+        --mac-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    body { background: var(--mac-bg) !important; color: var(--mac-text) !important; }
+    .content-wrapper { background: var(--mac-bg) !important; }
+
     .settings-wrapper { display: flex; gap: 30px; }
     .settings-sidebar { width: 280px; flex-shrink: 0; }
     .settings-content-area { flex-grow: 1; }
 
-    .nav-settings { background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; padding: 10px 0; }
-    .nav-settings li { padding: 2px 10px; }
+    .nav-settings { background: var(--mac-card); border-radius: 12px; border: 1px solid var(--mac-border); overflow: hidden; padding: 10px 0; box-shadow: var(--mac-shadow); }
     .nav-settings li a { 
         display: flex; align-items: center; padding: 12px 15px; border-radius: 8px; 
-        color: #64748b; font-weight: 500; transition: all 0.2s;
+        color: var(--mac-text-dim); font-weight: 500; transition: all 0.2s;
     }
-    .nav-settings li a i { width: 20px; font-size: 16px; margin-right: 12px; }
-    .nav-settings li.active a { background: #eff6ff; color: #3b82f6; font-weight: 700; }
-    .nav-settings li a:hover:not(.active) { background: #f8fafc; color: #1e293b; padding-left: 20px; }
+    .nav-settings li.active a { background: rgba(10, 132, 255, 0.1); color: var(--mac-blue); font-weight: 700; }
+    .nav-settings li a:hover:not(.active) { background: rgba(255,255,255,0.05); color: #fff; padding-left: 20px; }
 
-    .settings-panel { background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; min-height: 500px; display: flex; flex-direction: column; }
-    .settings-panel-header { padding: 25px 30px; border-bottom: 1px solid #f1f5f9; }
-    .settings-panel-header h4 { margin: 0; font-weight: 800; color: #1e293b; letter-spacing: -0.5px; }
-    .settings-panel-header p { margin: 5px 0 0 0; color: #64748b; font-size: 13px; }
+    .settings-panel { background: var(--mac-card); border-radius: 15px; border: 1px solid var(--mac-border); min-height: 500px; display: flex; flex-direction: column; box-shadow: var(--mac-shadow); overflow: hidden; }
+    .settings-panel-header { padding: 25px 30px; border-bottom: 1px solid var(--mac-border); background: var(--mac-card-header); backdrop-filter: blur(10px); }
+    .settings-panel-header h4 { margin: 0; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+    .settings-panel-header p { margin: 5px 0 0 0; color: var(--mac-text-dim); font-size: 13px; }
     .settings-panel-body { padding: 30px; flex-grow: 1; }
-    .settings-panel-footer { padding: 20px 30px; background: #f8fafc; border-top: 1px solid #f1f5f9; border-radius: 0 0 12px 12px; text-align: right; }
+    .settings-panel-footer { padding: 20px 30px; background: #000; border-top: 1px solid var(--mac-border); border-radius: 0 0 15px 15px; text-align: right; }
 
-    .logo-upload-zone { border: 2px dashed #e2e8f0; border-radius: 12px; padding: 20px; text-align: center; transition: all 0.2s; background: #f8fafc; cursor: pointer; position: relative; }
-    .logo-upload-zone:hover { border-color: #3b82f6; background: #fff; }
+    .form-control { background: #1c1c1e !important; border: 1px solid var(--mac-border) !important; color: #fff !important; }
+
+    .logo-upload-zone { border: 2px dashed var(--mac-border); border-radius: 12px; padding: 20px; text-align: center; transition: all 0.2s; background: rgba(0,0,0,0.2); cursor: pointer; position: relative; }
+    .logo-upload-zone:hover { border-color: var(--mac-blue); background: rgba(255,255,255,0.02); }
     .logo-current-preview { max-width: 150px; max-height: 80px; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center; }
-    .logo-current-preview img { max-width: 100%; border-radius: 4px; }
+    .logo-current-preview img { max-width: 100%; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
 
-    /* Layout Selection */
-    .layout-picker { display: flex; gap: 20px; margin-top: 10px; }
-    .layout-option { flex: 1; border: 2px solid #f1f5f9; border-radius: 12px; padding: 15px; cursor: pointer; transition: all 0.2s; position: relative; }
-    .layout-option:hover { border-color: #e2e8f0; }
-    .layout-option.active { border-color: #3b82f6; background: #eff6ff; }
-    .layout-option .mock-ui { background: #e2e8f0; height: 60px; border-radius: 4px; margin-bottom: 10px; display: flex; }
-    .layout-option .mock-sidebar { width: 20px; background: #cbd5e1; border-radius: 4px 0 0 4px; }
-    .layout-option .mock-topnav { height: 12px; background: #cbd5e1; border-radius: 4px 4px 0 0; width: 100%; }
-    .layout-option strong { display: block; font-size: 13px; color: #1e293b; text-align: center; }
+    .layout-option { border: 2px solid var(--mac-border); border-radius: 12px; background: rgba(0,0,0,0.2); color: #fff; }
+    .layout-option.active { border-color: var(--mac-blue); background: rgba(10, 132, 255, 0.05); }
+    .layout-option strong { color: #fff; }
 
-    .skin-dot { width: 32px; height: 32px; border-radius: 50%; display: inline-block; margin-right: 10px; cursor: pointer; border: 3px solid #fff; box-shadow: 0 0 0 1px #e2e8f0; transition: all 0.2s; }
-    .skin-dot.active { transform: scale(1.2); box-shadow: 0 0 0 2px #3b82f6; }
+    .form-section-title { font-size: 11px; font-weight: 700; color: var(--mac-text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin: 35px 0 20px 0; display: flex; align-items: center; gap: 15px; }
+    .form-section-title::after { content: ''; flex-grow: 1; height: 1px; background: var(--mac-border); }
 
-    .form-section-title { font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin: 30px 0 15px 0; display: flex; align-items: center; gap: 10px; }
-    .form-section-title::after { content: ''; flex-grow: 1; height: 1px; background: #f1f5f9; }
+    .alert-info { background: rgba(10, 132, 255, 0.1) !important; color: var(--mac-blue) !important; border: 1px solid rgba(10, 132, 255, 0.2) !important; border-radius: 12px !important; }
 </style>
 
 <div class="settings-wrapper">
@@ -125,7 +134,7 @@
                             </div>
                         </div>
                         <div class="settings-panel-footer">
-                            <button type="submit" class="btn btn-primary btn-flat" style="padding: 10px 30px; font-weight: 700;">COMMIT CHANGES</button>
+                            <button type="submit" class="btn btn-flat" style="padding: 12px 35px; font-weight: 700; background: var(--mac-blue); color: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(10, 132, 255, 0.3);">COMMIT CHANGES</button>
                         </div>
                     </div>
                 </div>
@@ -174,7 +183,7 @@
                             </div>
                         </div>
                         <div class="settings-panel-footer">
-                            <button type="submit" class="btn btn-primary btn-flat" style="padding: 10px 30px; font-weight: 700;">COMMIT CHANGES</button>
+                            <button type="submit" class="btn btn-flat" style="padding: 12px 35px; font-weight: 700; background: var(--mac-blue); color: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(10, 132, 255, 0.3);">COMMIT CHANGES</button>
                         </div>
                     </div>
                 </div>
@@ -201,7 +210,7 @@
                             </div>
                         </div>
                         <div class="settings-panel-footer">
-                            <button type="submit" class="btn btn-primary btn-flat" style="padding: 10px 30px; font-weight: 700;">COMMIT CHANGES</button>
+                            <button type="submit" class="btn btn-flat" style="padding: 12px 35px; font-weight: 700; background: var(--mac-blue); color: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(10, 132, 255, 0.3);">COMMIT CHANGES</button>
                         </div>
                     </div>
                 </div>
@@ -227,14 +236,14 @@
                             
                             <div class="form-group">
                                 <label class="text-muted small font-bold">SYSTEM MAINTENANCE OVERRIDE</label>
-                                <div style="display: flex; align-items: center; gap: 15px; background: #fff8f1; padding: 15px; border-radius: 10px; border: 1px solid #ffedd5;">
+                                <div style="display: flex; align-items: center; gap: 15px; background: rgba(255, 159, 10, 0.05); padding: 15px; border-radius: 10px; border: 1px solid rgba(255, 159, 10, 0.2);">
                                     <div class="switch-container">
-                                        <select name="maintenance_mode" class="form-control btn-flat border-orange shadow-none" style="width: 120px;">
+                                        <select name="maintenance_mode" class="form-control btn-flat border-orange shadow-none" style="width: 120px; background: #000 !important; color: var(--mac-yellow) !important; border-color: var(--mac-yellow) !important;">
                                             <option value="0" <?php echo (isset($all_settings['maintenance_mode']) && $all_settings['maintenance_mode'] == '0') ? 'selected' : ''; ?>>DISABLED</option>
                                             <option value="1" <?php echo (isset($all_settings['maintenance_mode']) && $all_settings['maintenance_mode'] == '1') ? 'selected' : ''; ?>>ENABLED</option>
                                         </select>
                                     </div>
-                                    <div style="font-size: 13px; color: #9a3412;">
+                                    <div style="font-size: 13px; color: var(--mac-yellow);">
                                         <strong>When enabled</strong>, only Super Admins can access the system. Other users will be redirected to the maintenance alert.
                                     </div>
                                 </div>
@@ -246,7 +255,7 @@
                             </div>
                         </div>
                         <div class="settings-panel-footer">
-                            <button type="submit" class="btn btn-primary btn-flat" style="padding: 10px 30px; font-weight: 700;">COMMIT CHANGES</button>
+                            <button type="submit" class="btn btn-flat" style="padding: 12px 35px; font-weight: 700; background: var(--mac-blue); color: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(10, 132, 255, 0.3);">COMMIT CHANGES</button>
                         </div>
                     </div>
                 </div>

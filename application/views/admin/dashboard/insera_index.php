@@ -110,8 +110,15 @@
     }
 
     .info-box-icon {
-        border-radius: 8px 0 0 8px !important;
+        border-radius: 12px !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        color: #fff !important;
+        box-shadow: inset 0 0 15px rgba(255,255,255,0.05);
     }
+
+    .bg-aqua { color: var(--mac-blue) !important; background: transparent !important; }
+    .bg-red { color: var(--mac-red) !important; background: transparent !important; }
+    .bg-green { color: var(--mac-green) !important; background: transparent !important; }
 
     /* Modal Styling */
     .modal-content {
@@ -140,8 +147,36 @@
         border-bottom: 1px solid var(--mac-border) !important;
     }
 
-    .btn-danger { background-color: var(--mac-red) !important; border-color: var(--mac-red) !important; }
-    .btn-success { background-color: var(--mac-green) !important; border-color: var(--mac-green) !important; }
+    .btn-danger { background-color: var(--mac-red) !important; border-color: var(--mac-red) !important; color: #fff !important; }
+    .btn-success { background-color: var(--mac-green) !important; border-color: var(--mac-green) !important; color: #fff !important; }
+    .btn-primary { background-color: var(--mac-blue) !important; border-color: var(--mac-blue) !important; color: #fff !important; }
+
+    /* Unified Dark Mode Badges/Labels */
+    .label {
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        padding: 4px 10px !important;
+        border-radius: 50px !important;
+    }
+
+    .label-danger { 
+        background: rgba(255, 69, 58, 0.15) !important; 
+        color: var(--mac-red) !important; 
+        border: 1px solid rgba(255, 69, 58, 0.3) !important;
+    }
+
+    .label-success { 
+        background: rgba(50, 215, 75, 0.15) !important; 
+        color: var(--mac-green) !important; 
+        border: 1px solid rgba(50, 215, 75, 0.3) !important;
+    }
+
+    .label-info { 
+        background: rgba(10, 132, 255, 0.15) !important; 
+        color: var(--mac-blue) !important; 
+        border: 1px solid rgba(10, 132, 255, 0.3) !important;
+    }
 
     /* Override text-muted for dark mode visibility */
     .text-muted {
@@ -214,6 +249,23 @@
 
     .dataTables_wrapper .dataTables_length {
         color: var(--mac-text-dim) !important;
+    }
+
+    /* Global Style for Export Buttons (Excel, PDF, Print) */
+    .dt-buttons .btn {
+        background: #000000 !important;
+        border: 1px solid var(--mac-border) !important;
+        color: #fff !important;
+        border-radius: 6px !important;
+        padding: 5px 12px !important;
+        margin-right: 5px !important;
+        font-size: 12px !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .dt-buttons .btn:hover {
+        background: #2c2c2e !important;
+        border-color: var(--mac-blue) !important;
     }
 </style>
 
@@ -454,7 +506,7 @@
         </div>
       </div>
       <div class="modal-footer border-0" style="background: #000000 !important;">
-        <button type="button" class="btn btn-default btn-flat btn-lg" style="border-radius: 6px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.1);" data-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-flat" style="border-radius: 8px; background: #000000; color: #fff; border: 1px solid var(--mac-border); padding: 8px 25px; transition: 0.3s;" data-dismiss="modal">Tutup</button>
       </div>
     </div>
   </div>
