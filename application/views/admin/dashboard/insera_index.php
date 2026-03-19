@@ -566,6 +566,13 @@ $(document).ready(function() {
     });
 });
 
+function formatSeconds(seconds) {
+    if (!seconds || isNaN(seconds)) return '00:00';
+    var hrs = Math.floor(seconds / 3600);
+    var mins = Math.floor((seconds % 3600) / 60);
+    return (hrs < 10 ? "0" + hrs : hrs) + ":" + (mins < 10 ? "0" + mins : mins);
+}
+
 function showDetail(category, workzone, statusType, bucket) {
     $('#modalTitle').html('<i class="fa fa-list"></i> Rincian <strong>' + category + ' (' + statusType + ')</strong> &nbsp;&nbsp;|&nbsp;&nbsp; ' + workzone + ' &nbsp;&nbsp;|&nbsp;&nbsp; Durasi: <strong>' + bucket + '</strong>');
     
@@ -604,7 +611,7 @@ function showDetail(category, workzone, statusType, bucket) {
                         item.reported_date,
                         item.status_date ? item.status_date : item.resolve_date,
                         '<span class="label label-' + (statusType == 'OPEN' ? 'danger' : 'success') + '">' + item.ticket_status + '</span>',
-                        item.ttr_customer,
+                        '<strong class="text-primary">' + formatSeconds(item.ttr_customer) + '</strong>',
                         ('<small>' + item.summary + '</small>')
                     ]);
                 });

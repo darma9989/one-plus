@@ -12,6 +12,17 @@
         --mac-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
 
+    <?php 
+    if (!function_exists('formatTTR')) {
+        function formatTTR($seconds) {
+            if (!$seconds || !is_numeric($seconds)) return '00:00';
+            $hrs = floor($seconds / 3600);
+            $mins = floor(($seconds % 3600) / 60);
+            return sprintf('%02d:%02d', $hrs, $mins);
+        }
+    }
+    ?>
+
     body {
         background-color: var(--mac-bg) !important;
         color: var(--mac-text) !important;
@@ -339,7 +350,7 @@
                     <tr>
                         <td class="text-center align-middle"><?php echo $no++; ?></td>
                         <td class="align-middle"><?php echo htmlspecialchars($r['ticket_id']); ?></td>
-                        <td class="align-middle"><?php echo htmlspecialchars($r['ttr_customer']); ?></td>
+                        <td class="align-middle"><?php echo formatTTR($r['ttr_customer']); ?></td>
                         <td class="align-middle"><?php echo htmlspecialchars($r['summary']); ?></td>
                         <td class="align-middle"><?php echo htmlspecialchars($r['reported_date']); ?></td>
                         <td class="align-middle"><?php echo htmlspecialchars($r['owner_group']); ?></td>
