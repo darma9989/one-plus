@@ -273,7 +273,7 @@
     $workzone_group = $this->session->userdata('workzone');
     if (!$this->session->userdata('is_superadmin') && $workzone_group): 
         $mapping = array(
-            '1' => 'TRK, TAJ, JTW',
+            '1' => 'TRK, TAJ, JWT',
             '2' => 'MLN, TPE, NNK, SNY',
             '3' => 'TRD, TBY, LNN, TSL, TLA',
             '4' => 'MLN, TPE',

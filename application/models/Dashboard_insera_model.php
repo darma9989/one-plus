@@ -18,7 +18,7 @@ class Dashboard_insera_model extends CI_Model {
         if (!$workzone_group) return;
 
         $mapping = array(
-            '1' => array('TRK', 'TAJ', 'JTW'),
+            '1' => array('TRK', 'TAJ', 'JWT'),
             '2' => array('MLN', 'TPE', 'NNK', 'SNY'),
             '3' => array('TRD', 'TBY', 'LNN', 'TSL', 'TLA'),
             '4' => array('MLN', 'TPE'),
@@ -59,14 +59,14 @@ class Dashboard_insera_model extends CI_Model {
         $sql = "SELECT scrape_category, work_zone,
                    CASE 
                        WHEN work_zone IN ('NNK', 'SNY', 'MLN', 'TPE') THEN 'Nunukan'
-                       WHEN work_zone IN ('JTW', 'TAJ', 'TRK') THEN 'Tarakan'
+                       WHEN work_zone IN ('JWT', 'TAJ', 'TRK') THEN 'Tarakan'
                        WHEN work_zone IN ('TSL', 'TLA', 'TRD', 'LNN', 'TBY') THEN 'Tanjung Redeb'
                        ELSE 'Other'
                    END AS service_area,
                    CASE
                        WHEN work_zone IN ('NNK', 'SNY') THEN 'Nunukan'
                        WHEN work_zone IN ('MLN', 'TPE') THEN 'Malinau'
-                       WHEN work_zone IN ('JTW', 'TAJ') THEN 'Tarakan 1'
+                       WHEN work_zone IN ('JWT', 'TAJ') THEN 'Tarakan 1'
                        WHEN work_zone IN ('TRK') THEN 'Tarakan 2'
                        WHEN work_zone IN ('TSL', 'TLA') THEN 'Tanjung Selor'
                        WHEN work_zone IN ('TRD', 'LNN', 'TBY') THEN 'Tanjung Redeb'
@@ -86,7 +86,7 @@ class Dashboard_insera_model extends CI_Model {
         $workzone_group = $this->session->userdata('workzone');
         if (!$this->session->userdata('is_superadmin') && $workzone_group) {
             $mapping = array(
-                '1' => "'TRK', 'TAJ', 'JTW'",
+                '1' => "'TRK', 'TAJ', 'JWT'",
                 '2' => "'MLN', 'TPE', 'NNK', 'SNY'",
                 '3' => "'TRD', 'TBY', 'LNN', 'TSL', 'TLA'",
                 '4' => "'MLN', 'TPE'",

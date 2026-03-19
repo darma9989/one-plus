@@ -435,7 +435,7 @@
                                 <label>Workzone Assignment</label>
                                 <select name="workzone" id="workzone" class="form-control">
                                     <option value="">— Group (Superadmin) —</option>
-                                    <option value="1">Group 1 (TRK, TAJ, JTW)</option>
+                                    <option value="1">Group 1 (TRK, TAJ, JWT)</option>
                                     <option value="2">Group 2 (MLN, TPE, NNK, SNY)</option>
                                     <option value="3">Group 3 (TRD, TBY, LNN, TSL, TLA)</option>
                                     <option value="4">Group 4 (MLN, TPE)</option>
