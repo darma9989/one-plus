@@ -580,9 +580,10 @@
                         <tr>
                             <th class="text-center">No</th>
                             <th>Ticket ID</th>
+                            <th>Service No</th>
                             <th>Workzone</th>
+                            <th>Customer Type</th>
                             <th>Reported Date</th>
-                            <th>Status Date</th>
                             <th>Ticket Status</th>
                             <th>TTR Customer</th>
                             <th>Summary</th>
@@ -668,10 +669,11 @@ function showDetail(category, workzone, statusType, bucket) {
                 $.each(response.data, function(i, item) {
                     rows.push([
                         (i+1),
-                        '<strong>' + item.ticket_id + '</strong>',
+                        '<strong>' + (item.ticket_id || '-') + '</strong>',
+                        '<strong>' + (item.service_no || '-') + '</strong>',
                         item.work_zone,
+                        '<code>' + (item.customer_type || '-') + '</code>',
                         item.reported_date,
-                        item.status_date ? item.status_date : item.resolve_date,
                         '<span class="label label-' + (statusType == 'OPEN' ? 'danger' : 'success') + '">' + item.ticket_status + '</span>',
                         '<strong class="text-primary">' + formatSeconds(item.ttr_customer) + '</strong>',
                         ('<small>' + item.summary + '</small>')
