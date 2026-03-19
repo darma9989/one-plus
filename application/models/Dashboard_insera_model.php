@@ -36,7 +36,6 @@ class Dashboard_insera_model extends CI_Model {
         $this->_apply_workzone_filter();
         $total = $this->db_lama->count_all_results('insera');
         
-        $this->_apply_workzone_filter();
         $this->db_lama->where_in('ticket_status', $this->open_statuses);
         $open = $this->db_lama->count_all_results('insera');
         
@@ -87,9 +86,13 @@ class Dashboard_insera_model extends CI_Model {
         $workzone_group = $this->session->userdata('workzone');
         if (!$this->session->userdata('is_superadmin') && $workzone_group) {
             $mapping = array(
-                '1' => "'TRK', 'TAJ', 'JWT'",
+                '1' => "'TRK', 'TAJ', 'JTW'",
                 '2' => "'MLN', 'TPE', 'NNK', 'SNY'",
-                '3' => "'TRD', 'TBY', 'LNN', 'TSL', 'TLA'"
+                '3' => "'TRD', 'TBY', 'LNN', 'TSL', 'TLA'",
+                '4' => "'MLN', 'TPE'",
+                '5' => "'NNK', 'SNY'",
+                '6' => "'TSL', 'TLA'",
+                '7' => "'TRD', 'TBY', 'LNN'"
             );
             if (isset($mapping[$workzone_group])) {
                 $sql .= " AND work_zone IN (" . $mapping[$workzone_group] . ")";
