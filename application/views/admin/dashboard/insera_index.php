@@ -335,6 +335,9 @@
             <div style="background: rgba(255,255,255,0.05); border: 1px solid var(--mac-border); border-radius: 50px; padding: 4px 15px; font-size: 11px; color: var(--mac-text-dim);">
                 <i class="fa fa-clock-o" style="color: var(--mac-blue); margin-right: 5px;"></i>
                 Last Update: <span style="color: #fff; font-weight: 700;"><?php echo $last_update ? date('d M Y, H:i', strtotime($last_update)) : '—'; ?></span>
+                <span style="margin: 0 8px; opacity: 0.3;">|</span>
+                <i class="fa fa-refresh" style="color: var(--mac-green); margin-right: 5px;"></i>
+                <span id="refreshCountdown" style="color: var(--mac-text-dim); font-weight: 500;">20:00</span>
             </div>
         </li>
     </ul>
@@ -687,4 +690,29 @@ function showDetail(category, workzone, statusType, bucket) {
         }
     });
 }
+
+// Auto Refresh Logic (20 Minutes)
+var refreshTime = 20 * 60; // 20 minutes in seconds
+var countdown = refreshTime;
+
+function updateCountdown() {
+    var mins = Math.floor(countdown / 60);
+    var secs = countdown % 60;
+    $('#refreshCountdown').text('Refresh in: ' + (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs);
+    
+    if (countdown <= 0) {
+        // Check if any modal is open before refreshing
+        if ($('.modal.in').length === 0 && $('.modal.show').length === 0) {
+            location.reload();
+        } else {
+            // If modal is open, wait another minute
+            countdown = 60; 
+        }
+    } else {
+        countdown--;
+    }
+}
+
+// Start countdown
+setInterval(updateCountdown, 1000);
 </script>
