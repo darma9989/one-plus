@@ -160,6 +160,7 @@ class Dashboard_insera_model extends CI_Model {
             $this->db_lama->where("$aging_expr >= 12 AND $aging_expr < 36", NULL, FALSE);
         } elseif ($bucket === '36-72 jam') {
             $this->db_lama->where("$aging_expr >= 36 AND $aging_expr < 72", NULL, FALSE);
+        } elseif ($bucket === '> 72 jam') {
             $this->db_lama->where("$aging_expr >= 72", NULL, FALSE);
         }
 
