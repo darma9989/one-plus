@@ -649,135 +649,123 @@
                     </table>
                 </div>
             </div>
-            <?php endif; ?>
-
-            <!-- PL-TSEL 4 TIERED PIVOT TABLES (per Customer Type Group) -->
+            <?php endif; ?>            <!-- PL-TSEL 4 TIERED PIVOT TABLES (per Customer Type Group) -->
             <?php
             $pltsel_tiers = array(
-                array(
-                    'label'   => 'HVC_DIAMOND',
-                    'icon'    => 'fa-diamond',
-                    'color'   => '#00d2ff',
-                    'border'  => '#00d2ff',
-                    'data'    => $pivot_pltsel_diamond,
-                    'var'     => 'HVC_DIAMOND',
-                ),
-                array(
-                    'label'   => 'HVC_PLATINUM',
-                    'icon'    => 'fa-star',
-                    'color'   => '#c0c0c0',
-                    'border'  => '#c0c0c0',
-                    'data'    => $pivot_pltsel_platinum,
-                    'var'     => 'HVC_PLATINUM',
-                ),
-                array(
-                    'label'   => 'HVC_GOLD',
-                    'icon'    => 'fa-trophy',
-                    'color'   => '#ffd700',
-                    'border'  => '#ffd700',
-                    'data'    => $pivot_pltsel_gold,
-                    'var'     => 'HVC_GOLD',
-                ),
-                array(
-                    'label'   => 'REGULER / BLANK',
-                    'icon'    => 'fa-user',
-                    'color'   => '#aaaaaa',
-                    'border'  => '#555555',
-                    'data'    => $pivot_pltsel_reguler,
-                    'var'     => 'REGULER / BLANK',
-                ),
+                array('label'=>'HVC_DIAMOND',  'icon'=>'fa-diamond','color'=>'#00d2ff','border'=>'#00d2ff','data'=>$pivot_pltsel_diamond),
+                array('label'=>'HVC_PLATINUM', 'icon'=>'fa-star',   'color'=>'#c0c0c0','border'=>'#c0c0c0','data'=>$pivot_pltsel_platinum),
+                array('label'=>'HVC_GOLD',     'icon'=>'fa-trophy', 'color'=>'#ffd700','border'=>'#ffd700','data'=>$pivot_pltsel_gold),
+                array('label'=>'REGULER / BLANK','icon'=>'fa-user', 'color'=>'#aaaaaa','border'=>'#555555','data'=>$pivot_pltsel_reguler),
             );
             foreach($pltsel_tiers as $tier):
                 if(empty($tier['data'])) continue;
+                $tier_label = $tier['label'];
             ?>
             <div class="box" style="margin-top: 30px; border-top: 3px solid <?php echo $tier['border']; ?>; background: rgba(0,0,0,0.05);">
                 <div class="box-header with-border">
                     <h3 class="box-title" style="font-weight: 700; color: <?php echo $tier['color']; ?>;">
                         <i class="fa <?php echo $tier['icon']; ?>" style="color: <?php echo $tier['color']; ?>; margin-right: 8px;"></i>
-                        PL-TSEL &mdash; <?php echo htmlspecialchars($tier['label']); ?>
+                        PL-TSEL &mdash; <?php echo htmlspecialchars($tier_label); ?>
                     </h3>
                 </div>
                 <div class="box-body table-responsive">
                     <table class="table table-bordered table-striped table-hover pivot-table">
                         <thead>
                             <tr style="background: #000000 !important; color: #ffffff !important;">
-                                <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Service Area</th>
-                                <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Sektor</th>
-                                <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Workzone</th>
-                                <th class="text-center" colspan="8" style="letter-spacing: 1px; text-align: center; background: #000000 !important; color: #ffffff !important;">DURASI TIKET (OPEN) &mdash; <?php echo htmlspecialchars($tier['label']); ?></th>
-                                <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Total</th>
+                                <th class="text-center align-middle" rowspan="2" style="vertical-align:middle;text-align:center;background:#000 !important;color:#fff !important;">Service Area</th>
+                                <th class="text-center align-middle" rowspan="2" style="vertical-align:middle;text-align:center;background:#000 !important;color:#fff !important;">Sektor</th>
+                                <th class="text-center align-middle" rowspan="2" style="vertical-align:middle;text-align:center;background:#000 !important;color:#fff !important;">Workzone</th>
+                                <th class="text-center" colspan="8" style="letter-spacing:1px;text-align:center;background:#000 !important;color:#fff !important;">DURASI TIKET OPEN &mdash; <?php echo htmlspecialchars($tier_label); ?></th>
+                                <th class="text-center align-middle" rowspan="2" style="vertical-align:middle;text-align:center;background:#000 !important;color:#fff !important;">Total</th>
                             </tr>
-                            <tr style="background: #000000 !important; color: #ffffff !important;">
-                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">&lt; 1 jam</th>
-                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">1-2 jam</th>
-                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">2-3 jam</th>
-                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">3-6 jam</th>
-                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">6-12 jam</th>
-                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">12-36 jam</th>
-                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">36-72 jam</th>
-                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">&gt; 72 jam</th>
+                            <tr style="background:#000 !important;color:#fff !important;">
+                                <?php foreach(['< 1 jam','1-2 jam','2-3 jam','3-6 jam','6-12 jam','12-36 jam','36-72 jam','> 72 jam'] as $bh): ?>
+                                <th class="text-center" style="text-align:center;background:#000 !important;color:#fff !important;"><?php echo htmlspecialchars($bh); ?></th>
+                                <?php endforeach; ?>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $gt_b = array('< 1 jam'=>0,'1-2 jam'=>0,'2-3 jam'=>0,'3-6 jam'=>0,'6-12 jam'=>0,'12-36 jam'=>0,'36-72 jam'=>0,'> 72 jam'=>0);
-                            $gt_t = 0;
-                            $sa_spans = array(); $sk_spans = array();
-                            foreach($tier['data'] as $rv) {
-                                $sk = $rv['service_area'].'|'.$rv['sektor'];
-                                $sa_spans[$rv['service_area']] = (isset($sa_spans[$rv['service_area']]) ? $sa_spans[$rv['service_area']] : 0) + 1;
-                                $sk_spans[$sk] = (isset($sk_spans[$sk]) ? $sk_spans[$sk] : 0) + 1;
+                            $gt_b2 = array('< 1 jam'=>0,'1-2 jam'=>0,'2-3 jam'=>0,'3-6 jam'=>0,'6-12 jam'=>0,'12-36 jam'=>0,'36-72 jam'=>0,'> 72 jam'=>0);
+                            $gt_t2 = 0;
+                            $sa_spans2 = array(); $sk_spans2 = array();
+                            foreach($tier['data'] as $rv2) {
+                                $sk2 = $rv2['service_area'].'|'.$rv2['sektor'];
+                                $sa_spans2[$rv2['service_area']] = (isset($sa_spans2[$rv2['service_area']]) ? $sa_spans2[$rv2['service_area']] : 0) + 1;
+                                $sk_spans2[$sk2] = (isset($sk_spans2[$sk2]) ? $sk_spans2[$sk2] : 0) + 1;
                             }
-                            $sa_done = array(); $sk_done = array();
-                            foreach($tier['data'] as $r):
-                                $cur_sa = $r['service_area'];
-                                $cur_sk = $r['service_area'].'|'.$r['sektor'];
-                                $row_total = 0;
-                                $buckets = ['< 1 jam','1-2 jam','2-3 jam','3-6 jam','6-12 jam','12-36 jam','36-72 jam','> 72 jam'];
+                            $sa_done2 = array(); $sk_done2 = array();
+                            foreach($tier['data'] as $r2):
+                                $cur_sa2 = $r2['service_area'];
+                                $cur_sk2 = $r2['service_area'].'|'.$r2['sektor'];
+                                $row_total2 = 0;
+                                $wz_esc = htmlspecialchars($r2['work_zone']);
                             ?>
                             <tr>
-                                <?php if(!isset($sa_done[$cur_sa])): ?>
-                                <td class="text-center" rowspan="<?php echo $sa_spans[$cur_sa]; ?>" style="font-weight: 700; text-align: center; vertical-align: middle; background: rgba(255,255,255,0.02);"><?php echo htmlspecialchars($cur_sa); ?></td>
-                                <?php $sa_done[$cur_sa] = true; endif; ?>
-                                <?php if(!isset($sk_done[$cur_sk])): ?>
-                                <td class="text-center" rowspan="<?php echo $sk_spans[$cur_sk]; ?>" style="font-weight: 600; text-align: center; vertical-align: middle; background: rgba(255,255,255,0.01);"><?php echo htmlspecialchars($r['sektor']); ?></td>
-                                <?php $sk_done[$cur_sk] = true; endif; ?>
-                                <td class="text-center" style="font-weight: 600; text-align: center; vertical-align: middle;"><?php echo htmlspecialchars($r['work_zone']); ?></td>
-                                <?php
-                                foreach($buckets as $b):
-                                    $val = isset($r[$b]) ? (int)$r[$b] : 0;
-                                    $cust_js = htmlspecialchars($tier['var'], ENT_QUOTES);
-                                    if ($val > 0) {
-                                        echo '<td class="text-center" style="text-align:center;vertical-align:middle;"><a href="javascript:void(0)" class="btn btn-xs" style="width:100%;border-radius:20px;font-weight:bold;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.1);" onclick="showDetail(\'PL-TSEL\',\''.htmlspecialchars($r['work_zone']).'\',\'OPEN\',\''.htmlspecialchars($b).'\',\''.$cust_js.'\')">'.$val.'</a></td>';
-                                    } else {
-                                        echo '<td class="text-center text-muted" style="text-align:center;vertical-align:middle;">0</td>';
-                                    }
-                                    $row_total += $val;
-                                    $gt_b[$b] += $val;
-                                endforeach;
-                                $gt_t += $row_total;
+                                <?php if(!isset($sa_done2[$cur_sa2])): ?>
+                                <td class="text-center" rowspan="<?php echo $sa_spans2[$cur_sa2]; ?>" style="font-weight:700;text-align:center;vertical-align:middle;background:rgba(255,255,255,0.02);"><?php echo htmlspecialchars($cur_sa2); ?></td>
+                                <?php $sa_done2[$cur_sa2] = true; endif; ?>
+                                <?php if(!isset($sk_done2[$cur_sk2])): ?>
+                                <td class="text-center" rowspan="<?php echo $sk_spans2[$cur_sk2]; ?>" style="font-weight:600;text-align:center;vertical-align:middle;background:rgba(255,255,255,0.01);"><?php echo htmlspecialchars($r2['sektor']); ?></td>
+                                <?php $sk_done2[$cur_sk2] = true; endif; ?>
+                                <td class="text-center" style="font-weight:600;text-align:center;vertical-align:middle;"><?php echo $wz_esc; ?></td>
+                                <?php foreach(['< 1 jam','1-2 jam','2-3 jam','3-6 jam','6-12 jam','12-36 jam','36-72 jam','> 72 jam'] as $b2):
+                                    $val2 = isset($r2[$b2]) ? (int)$r2[$b2] : 0;
+                                    $row_total2 += $val2;
+                                    $gt_b2[$b2] += $val2;
                                 ?>
-                                <td class="text-center" style="font-weight: 800; font-size: 16px; text-align: center; vertical-align: middle;">
-                                    <?php if($row_total > 0): ?>
-                                        <a href="javascript:void(0)" class="text-white" style="font-weight:800;text-decoration:underline;color:#fff !important;" onclick="showDetail('PL-TSEL','<?php echo htmlspecialchars($r['work_zone']); ?>','OPEN','ALL','<?php echo htmlspecialchars($tier['var'], ENT_QUOTES); ?>')"><?php echo $row_total; ?></a>
+                                <td class="text-center" style="text-align:center;vertical-align:middle;">
+                                    <?php if($val2 > 0): ?>
+                                    <a href="javascript:void(0)" class="btn btn-xs tier-detail-btn"
+                                       style="width:100%;border-radius:20px;font-weight:bold;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.15);"
+                                       data-cat="PL-TSEL"
+                                       data-wz="<?php echo $wz_esc; ?>"
+                                       data-st="OPEN"
+                                       data-bk="<?php echo htmlspecialchars($b2); ?>"
+                                       data-ct="<?php echo htmlspecialchars($tier_label); ?>"><?php echo $val2; ?></a>
+                                    <?php else: ?><span class="text-muted">0</span><?php endif; ?>
+                                </td>
+                                <?php endforeach; ?>
+                                <?php $gt_t2 += $row_total2; ?>
+                                <td class="text-center" style="font-weight:800;font-size:16px;text-align:center;vertical-align:middle;">
+                                    <?php if($row_total2 > 0): ?>
+                                    <a href="javascript:void(0)" class="tier-detail-btn"
+                                       style="font-weight:800;text-decoration:underline;color:#fff !important;"
+                                       data-cat="PL-TSEL"
+                                       data-wz="<?php echo $wz_esc; ?>"
+                                       data-st="OPEN"
+                                       data-bk="ALL"
+                                       data-ct="<?php echo htmlspecialchars($tier_label); ?>"><?php echo $row_total2; ?></a>
                                     <?php else: echo 0; endif; ?>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
-                        <tfoot style="background: #000000 !important; color: #ffffff !important;">
-                            <tr style="background: #000000 !important; color: #ffffff !important;">
-                                <td class="text-center" colspan="3" style="vertical-align: middle; font-size: 14px; text-align: center; color: #fff; background: #000000 !important;">GRAND TOTAL</td>
-                                <?php foreach($gt_b as $bk => $val): ?>
-                                <td class="text-center" style="vertical-align:middle;text-align:center;background:#000000 !important;">
-                                    <?php if($val > 0): ?>
-                                        <a href="javascript:void(0)" class="text-white" style="font-weight:800;text-decoration:underline;color:#fff !important;" onclick="showDetail('PL-TSEL','ALL','OPEN','<?php echo htmlspecialchars($bk); ?>','<?php echo htmlspecialchars($tier['var'], ENT_QUOTES); ?>')"><?php echo number_format($val); ?></a>
+                        <tfoot style="background:#000 !important;color:#fff !important;">
+                            <tr style="background:#000 !important;color:#fff !important;">
+                                <td class="text-center" colspan="3" style="vertical-align:middle;font-size:14px;text-align:center;color:#fff;background:#000 !important;">GRAND TOTAL</td>
+                                <?php foreach($gt_b2 as $bk2 => $bval2): ?>
+                                <td class="text-center" style="vertical-align:middle;text-align:center;background:#000 !important;">
+                                    <?php if($bval2 > 0): ?>
+                                    <a href="javascript:void(0)" class="tier-detail-btn"
+                                       style="font-weight:800;color:#fff !important;text-decoration:underline;"
+                                       data-cat="PL-TSEL"
+                                       data-wz="ALL"
+                                       data-st="OPEN"
+                                       data-bk="<?php echo htmlspecialchars($bk2); ?>"
+                                       data-ct="<?php echo htmlspecialchars($tier_label); ?>"><?php echo number_format($bval2); ?></a>
                                     <?php else: echo 0; endif; ?>
                                 </td>
                                 <?php endforeach; ?>
-                                <td class="text-center" style="vertical-align:middle;font-size:16px;color:#fff;text-align:center;background:#000000 !important;">
-                                    <?php if($gt_t > 0): ?>
-                                        <a href="javascript:void(0)" class="text-white" style="font-weight:800;text-decoration:underline;color:#fff !important;" onclick="showDetail('PL-TSEL','ALL','OPEN','ALL','<?php echo htmlspecialchars($tier['var'], ENT_QUOTES); ?>')"><?php echo number_format($gt_t); ?></a>
+                                <td class="text-center" style="vertical-align:middle;font-size:16px;color:#fff;text-align:center;background:#000 !important;">
+                                    <?php if($gt_t2 > 0): ?>
+                                    <a href="javascript:void(0)" class="tier-detail-btn"
+                                       style="font-weight:800;color:#fff !important;text-decoration:underline;"
+                                       data-cat="PL-TSEL"
+                                       data-wz="ALL"
+                                       data-st="OPEN"
+                                       data-bk="ALL"
+                                       data-ct="<?php echo htmlspecialchars($tier_label); ?>"><?php echo number_format($gt_t2); ?></a>
                                     <?php else: echo 0; endif; ?>
                                 </td>
                             </tr>
@@ -974,6 +962,16 @@ function formatSeconds(seconds) {
     var mins = Math.floor((seconds % 3600) / 60);
     return (hrs < 10 ? "0" + hrs : hrs) + ":" + (mins < 10 ? "0" + mins : mins);
 }
+
+// Delegated handler for tiered PL-TSEL pivot tables (uses data-* attributes to avoid escaping issues)
+$(document).on('click', '.tier-detail-btn', function() {
+    var cat = $(this).data('cat') || 'ALL';
+    var wz  = $(this).data('wz')  || 'ALL';
+    var st  = $(this).data('st')  || 'OPEN';
+    var bk  = $(this).data('bk')  || 'ALL';
+    var ct  = $(this).data('ct')  || 'ALL';
+    showDetail(cat, wz, st, bk, ct);
+});
 
 function showDetail(category, workzone, statusType, bucket, customerType) {
     category = category || 'ALL';
