@@ -292,6 +292,10 @@
         color: var(--mac-blue) !important;
     }
 
+    .closed-filter-form .preset-select {
+        min-width: 150px;
+    }
+
     .closed-filter-header {
         display: flex;
         align-items: center;
@@ -864,6 +868,17 @@
                             <label for="resolve_date_to" style="margin-right: 6px;">Sampai</label>
                             <input type="date" id="resolve_date_to" name="resolve_date_to" class="form-control" value="<?php echo htmlspecialchars(isset($resolve_date_to) ? $resolve_date_to : ''); ?>">
                         </div>
+                        <div class="form-group" style="margin-right: 10px;">
+                            <label for="closed_date_preset" style="margin-right: 6px;">Preset</label>
+                            <select id="closed_date_preset" class="form-control preset-select" onchange="applyClosedDatePresetFromSelect(this)">
+                                <option value="">Pilih Preset</option>
+                                <option value="today">Hari Ini</option>
+                                <option value="yesterday">Kemarin</option>
+                                <option value="last7">7 Hari Terakhir</option>
+                                <option value="last30">30 Hari Terakhir</option>
+                                <option value="thisMonth">Bulan Ini</option>
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-closed-filter" style="margin-right: 6px;">
                             <i class="fa fa-search"></i> Filter
                         </button>
@@ -1066,6 +1081,40 @@ function formatSeconds(seconds) {
     var hrs = Math.floor(seconds / 3600);
     var mins = Math.floor((seconds % 3600) / 60);
     return (hrs < 10 ? "0" + hrs : hrs) + ":" + (mins < 10 ? "0" + mins : mins);
+}
+
+function formatDateInput(dateObj) {
+    var year = dateObj.getFullYear();
+    var month = ('0' + (dateObj.getMonth() + 1)).slice(-2);
+    var day = ('0' + dateObj.getDate()).slice(-2);
+    return year + '-' + month + '-' + day;
+}
+
+function setClosedDatePreset(preset) {
+    var now = new Date();
+    var fromDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var toDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    if (preset === 'yesterday') {
+        fromDate.setDate(fromDate.getDate() - 1);
+        toDate.setDate(toDate.getDate() - 1);
+    } else if (preset === 'last7') {
+        fromDate.setDate(fromDate.getDate() - 6);
+    } else if (preset === 'last30') {
+        fromDate.setDate(fromDate.getDate() - 29);
+    } else if (preset === 'thisMonth') {
+        fromDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    }
+
+    $('#resolve_date_from').val(formatDateInput(fromDate));
+    $('#resolve_date_to').val(formatDateInput(toDate));
+}
+
+function applyClosedDatePresetFromSelect(el) {
+    var value = $(el).val();
+    if (!value) return;
+    setClosedDatePreset(value);
+    $('.closed-filter-form').submit();
 }
 
 // Delegated handler for tiered PL-TSEL pivot tables (uses data-* attributes to avoid escaping issues)
