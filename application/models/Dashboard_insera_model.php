@@ -169,6 +169,19 @@ class Dashboard_insera_model extends CI_Model {
             $this->db_lama->where("$aging_expr >= 72", NULL, FALSE);
         }
 
+        if (isset($params['customer_type']) && $params['customer_type'] !== 'ALL' && !empty($params['customer_type'])) {
+            $ct = $params['customer_type'];
+            if ($ct === 'REGULER / BLANK') {
+                $this->db_lama->group_start();
+                    $this->db_lama->where('customer_type', 'REGULER');
+                    $this->db_lama->or_where('customer_type', '');
+                    $this->db_lama->or_where('customer_type', NULL);
+                $this->db_lama->group_end();
+            } else {
+                $this->db_lama->where('customer_type', $ct);
+            }
+        }
+
         $this->db_lama->order_by('reported_date', 'ASC');
         return $this->db_lama->get('insera')->result();
     }
@@ -180,5 +193,52 @@ class Dashboard_insera_model extends CI_Model {
                              ->get('insera')
                              ->row();
         return $row ? $row->scraped_at : null;
+    }
+    public function get_pivot_by_customer_type($category = 'PL-TSEL', $status_type = 'OPEN') {
+        if ($status_type === 'OPEN') {
+            $aging_expr = "TIMESTAMPDIFF(HOUR, reported_date, NOW())";
+        } else {
+            $aging_expr = "TIMESTAMPDIFF(HOUR, reported_date, resolve_date)";
+        }
+
+        $sql = "SELECT 
+                   CASE 
+                       WHEN customer_type = 'HVC_DIAMOND' THEN 'HVC_DIAMOND'
+                       WHEN customer_type = 'HVC_PLATINUM' THEN 'HVC_PLATINUM'
+                       WHEN customer_type = 'HVC_GOLD' THEN 'HVC_GOLD'
+                       ELSE 'REGULER / BLANK'
+                   END AS display_cust_type,
+                   SUM(CASE WHEN $aging_expr < 1 THEN 1 ELSE 0 END) AS `< 1 jam`,
+                   SUM(CASE WHEN $aging_expr >= 1 AND $aging_expr < 2 THEN 1 ELSE 0 END) AS `1-2 jam`,
+                   SUM(CASE WHEN $aging_expr >= 2 AND $aging_expr < 3 THEN 1 ELSE 0 END) AS `2-3 jam`,
+                   SUM(CASE WHEN $aging_expr >= 3 AND $aging_expr < 6 THEN 1 ELSE 0 END) AS `3-6 jam`,
+                   SUM(CASE WHEN $aging_expr >= 6 AND $aging_expr < 12 THEN 1 ELSE 0 END) AS `6-12 jam`,
+                   SUM(CASE WHEN $aging_expr >= 12 AND $aging_expr < 36 THEN 1 ELSE 0 END) AS `12-36 jam`,
+                   SUM(CASE WHEN $aging_expr >= 36 AND $aging_expr < 72 THEN 1 ELSE 0 END) AS `36-72 jam`,
+                   SUM(CASE WHEN $aging_expr >= 72 THEN 1 ELSE 0 END) AS `> 72 jam`
+                FROM insera
+                WHERE scrape_category = ? ";
+
+        // Workzone filter
+        $workzone_group = $this->session->userdata('workzone');
+        if (!$this->session->userdata('is_superadmin') && $workzone_group) {
+            $mapping = array(
+                '1' => "'TRK', 'TAJ', 'JWT'",
+                '2' => "'MLN', 'TPE', 'NNK', 'SNY'",
+                '3' => "'TRD', 'TBY', 'LNN', 'TSL', 'TLA'",
+                '4' => "'MLN', 'TPE'",
+                '5' => "'NNK', 'SNY'",
+                '6' => "'TSL', 'TLA'",
+                '7' => "'TRD', 'TBY', 'LNN'"
+            );
+            if (isset($mapping[$workzone_group])) {
+                $sql .= " AND work_zone IN (" . $mapping[$workzone_group] . ")";
+            }
+        }
+
+        $sql .= " GROUP BY display_cust_type 
+                  ORDER BY FIELD(display_cust_type, 'HVC_DIAMOND', 'HVC_PLATINUM', 'HVC_GOLD', 'REGULER / BLANK')";
+
+        return $this->db_lama->query($sql, array($category))->result_array();
     }
 }

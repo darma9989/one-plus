@@ -562,6 +562,94 @@
                 </div>
                 <?php endforeach; ?>
             <?php endif; ?>
+
+            <!-- PL-TSEL CUSTOMER TYPE PIVOT -->
+            <?php if(!empty($pivot_pltsel_cust)): ?>
+            <div class="box" style="margin-top: 40px; border-top: 3px solid #f39c12; background: rgba(0,0,0,0.1);">
+                <div class="box-header with-border">
+                    <h3 class="box-title" style="font-weight: 700; color: #f39c12;">
+                        <i class="fa fa-users"></i> Distribusi PL-TSEL Berdasarkan Customer Type
+                    </h3>
+                </div>
+                <div class="box-body table-responsive">
+                    <table class="table table-bordered table-striped table-hover pivot-table">
+                        <thead>
+                            <tr style="background: #000000 !important; color: #ffffff !important;">
+                                <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Customer Group</th>
+                                <th class="text-center" colspan="8" style="letter-spacing: 1px; text-align: center; background: #000000 !important; color: #ffffff !important;">DURASI TIKET PL-TSEL (OPEN)</th>
+                                <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Total</th>
+                            </tr>
+                            <tr style="background: #000000 !important; color: #ffffff !important;">
+                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">&lt; 1 jam</th>
+                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">1-2 jam</th>
+                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">2-3 jam</th>
+                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">3-6 jam</th>
+                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">6-12 jam</th>
+                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">12-36 jam</th>
+                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">36-72 jam</th>
+                                <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">&gt; 72 jam</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                            $gt_buckets_cust = array('< 1 jam'=>0, '1-2 jam'=>0, '2-3 jam'=>0, '3-6 jam'=>0, '6-12 jam'=>0, '12-36 jam'=>0, '36-72 jam'=>0, '> 72 jam'=>0);
+                            $gt_total_cust = 0;
+                            
+                            foreach($pivot_pltsel_cust as $r): 
+                                $row_total = 0;
+                                $cust_type = $r['display_cust_type'];
+                            ?>
+                            <tr>
+                                <td class="text-left" style="font-weight: 700; padding-left: 20px; vertical-align: middle;">
+                                    <?php 
+                                    $icon = 'fa-user';
+                                    $color = '#999';
+                                    if($cust_type == 'HVC_DIAMOND') { $icon = 'fa-diamond'; $color = '#00d2ff'; }
+                                    elseif($cust_type == 'HVC_PLATINUM') { $icon = 'fa-star'; $color = '#e5e4e2'; }
+                                    elseif($cust_type == 'HVC_GOLD') { $icon = 'fa-trophy'; $color = '#ffd700'; }
+                                    ?>
+                                    <i class="fa <?php echo $icon; ?>" style="color: <?php echo $color; ?>; margin-right: 10px;"></i>
+                                    <?php echo htmlspecialchars($cust_type); ?>
+                                </td>
+                                <?php 
+                                $buckets = ['< 1 jam', '1-2 jam', '2-3 jam', '3-6 jam', '6-12 jam', '12-36 jam', '36-72 jam', '> 72 jam'];
+                                foreach($buckets as $b):
+                                    $val = isset($r[$b]) ? (int)$r[$b] : 0;
+                                    if ($val > 0) {
+                                        echo '<td class="text-center" style="text-align: center; vertical-align: middle;"><a href="javascript:void(0)" class="btn btn-xs" style="width: 100%; border-radius: 20px; font-weight: bold; background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255, 255, 255, 0.1);" onclick="showDetail(\'PL-TSEL\', \'ALL\', \'OPEN\', \''.htmlspecialchars($b).'\', \''.htmlspecialchars($cust_type).'\')">'.$val.'</a></td>';
+                                    } else {
+                                        echo '<td class="text-center text-muted" style="text-align: center; vertical-align: middle;">0</td>';
+                                    }
+                                    $row_total += $val;
+                                    $gt_buckets_cust[$b] += $val;
+                                endforeach;
+                                $gt_total_cust += $row_total;
+                                ?>
+                                <td class="text-center" style="font-weight: 800; font-size: 16px; text-align: center; vertical-align: middle;">
+                                    <?php if($row_total > 0): ?>
+                                        <a href="javascript:void(0)" class="text-white" style="font-weight: 800; text-decoration: underline; color: #fff !important;" onclick="showDetail('PL-TSEL', 'ALL', 'OPEN', 'ALL', '<?php echo htmlspecialchars($cust_type); ?>')"><?php echo $row_total; ?></a>
+                                    <?php else: echo 0; endif; ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot style="background: #000000 !important; color: #ffffff !important;">
+                            <tr style="background: #000000 !important; color: #ffffff !important;">
+                                <td class="text-center" style="vertical-align: middle; font-size: 14px; text-align: center; color: #fff; background: #000000 !important;">GRAND TOTAL PL-TSEL (BY GROUP)</td>
+                                <?php foreach($gt_buckets_cust as $bk => $val): ?>
+                                    <td class="text-center" style="vertical-align: middle; text-align: center; background: #000000 !important;">
+                                        <span style="font-weight: 800; color: #fff;"><?php echo number_format($val); ?></span>
+                                    </td>
+                                <?php endforeach; ?>
+                                <td class="text-center" style="vertical-align: middle; font-size: 16px; color: #fff; text-align: center; background: #000000 !important;">
+                                    <span style="font-weight: 800; color: #fff;"><?php echo number_format($gt_total_cust); ?></span>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <?php endif; ?>
         </div>
 
         <!-- TAB CLOSED -->
@@ -751,14 +839,27 @@ function formatSeconds(seconds) {
     return (hrs < 10 ? "0" + hrs : hrs) + ":" + (mins < 10 ? "0" + mins : mins);
 }
 
-function showDetail(category, workzone, statusType, bucket) {
-    $('#modalTitle').html('<i class="fa fa-list"></i> Rincian <strong>' + category + ' (' + statusType + ')</strong> &nbsp;&nbsp;|&nbsp;&nbsp; ' + workzone + ' &nbsp;&nbsp;|&nbsp;&nbsp; Durasi: <strong>' + bucket + '</strong>');
+function showDetail(category, workzone, statusType, bucket, customerType) {
+    category = category || 'ALL';
+    workzone = workzone || 'ALL';
+    statusType = statusType || 'OPEN';
+    bucket = bucket || 'ALL';
+    customerType = customerType || 'ALL';
+
+    var title = '<i class="fa fa-list"></i> Rincian <strong>' + category + ' (' + statusType + ')</strong>';
+    if(customerType !== 'ALL') {
+        title += ' &nbsp;|&nbsp; Group: <strong>' + customerType + '</strong>';
+    }
+    title += ' &nbsp;&nbsp;|&nbsp;&nbsp; ' + (workzone === 'ALL' ? 'Semua Wilayah' : workzone) + ' &nbsp;&nbsp;|&nbsp;&nbsp; Durasi: <strong>' + bucket + '</strong>';
+    
+    $('#modalTitle').html(title);
     
     var reqData = {
         scrape_category: category,
         work_zone: workzone,
         status_type: statusType,
-        bucket: bucket
+        bucket: bucket,
+        customer_type: customerType
     };
     reqData[csrfName] = csrfHash; // Inject CSRF token
     

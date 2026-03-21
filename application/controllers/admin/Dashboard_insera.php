@@ -14,6 +14,7 @@ class Dashboard_insera extends Admin_Controller {
         $this->data['pivot_open'] = $this->Dashboard_insera_model->get_pivot_by_category('OPEN');
         $this->data['pivot_star'] = $this->Dashboard_insera_model->get_pivot_by_category('OPEN', array('HSI', 'PL-TSEL'));
         $this->data['pivot_closed'] = $this->Dashboard_insera_model->get_pivot_by_category('CLOSED');
+        $this->data['pivot_pltsel_cust'] = $this->Dashboard_insera_model->get_pivot_by_customer_type('PL-TSEL', 'OPEN');
         $this->data['last_update'] = $this->Dashboard_insera_model->get_last_update();
 
         $this->template->load('admin/dashboard/insera_index', $this->data);
@@ -24,7 +25,8 @@ class Dashboard_insera extends Admin_Controller {
             'scrape_category' => $this->input->post('scrape_category', TRUE),
             'work_zone' => $this->input->post('work_zone', TRUE),
             'status_type' => $this->input->post('status_type', TRUE),
-            'bucket' => $this->input->post('bucket', TRUE)
+            'bucket' => $this->input->post('bucket', TRUE),
+            'customer_type' => $this->input->post('customer_type', TRUE)
         );
         
         $data = $this->Dashboard_insera_model->get_detail_tickets($params);
