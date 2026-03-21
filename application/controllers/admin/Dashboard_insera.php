@@ -15,6 +15,10 @@ class Dashboard_insera extends Admin_Controller {
         $this->data['pivot_star'] = $this->Dashboard_insera_model->get_pivot_by_category('OPEN', array('HSI', 'PL-TSEL'));
         $this->data['pivot_closed'] = $this->Dashboard_insera_model->get_pivot_by_category('CLOSED');
         $this->data['pivot_pltsel_cust'] = $this->Dashboard_insera_model->get_pivot_by_customer_type('PL-TSEL', 'OPEN');
+        $this->data['pivot_pltsel_diamond']  = $this->Dashboard_insera_model->get_pivot_pltsel_by_cust_group('HVC_DIAMOND');
+        $this->data['pivot_pltsel_platinum'] = $this->Dashboard_insera_model->get_pivot_pltsel_by_cust_group('HVC_PLATINUM');
+        $this->data['pivot_pltsel_gold']     = $this->Dashboard_insera_model->get_pivot_pltsel_by_cust_group('HVC_GOLD');
+        $this->data['pivot_pltsel_reguler']  = $this->Dashboard_insera_model->get_pivot_pltsel_by_cust_group('REGULER / BLANK');
         $this->data['last_update'] = $this->Dashboard_insera_model->get_last_update();
 
         $this->template->load('admin/dashboard/insera_index', $this->data);
