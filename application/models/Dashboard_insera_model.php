@@ -51,7 +51,7 @@ class Dashboard_insera_model extends CI_Model {
         );
     }
 
-    public function get_pivot_by_category($status_type = 'OPEN', $categories = array()) {
+    public function get_pivot_by_category($status_type = 'OPEN', $categories = array(), $resolve_date_from = '', $resolve_date_to = '') {
         if ($status_type === 'OPEN') {
             $aging_expr = "TIMESTAMPDIFF(HOUR, reported_date, NOW())";
         } else {
@@ -111,6 +111,14 @@ class Dashboard_insera_model extends CI_Model {
             $sql .= " AND ticket_status IN ($status_list)";
         } else {
             $sql .= " AND ticket_status NOT IN ($status_list)";
+            if (!empty($resolve_date_from)) {
+                $safe_from = $this->db_lama->escape($resolve_date_from . ' 00:00:00');
+                $sql .= " AND resolve_date >= $safe_from";
+            }
+            if (!empty($resolve_date_to)) {
+                $safe_to = $this->db_lama->escape($resolve_date_to . ' 23:59:59');
+                $sql .= " AND resolve_date <= $safe_to";
+            }
         }
 
         $sql .= " GROUP BY scrape_category, service_area, sektor, work_zone";
@@ -135,6 +143,8 @@ class Dashboard_insera_model extends CI_Model {
         $work_zone = $params['work_zone'];
         $status_type = $params['status_type'];
         $bucket = $params['bucket'];
+        $resolve_date_from = isset($params['resolve_date_from']) ? $params['resolve_date_from'] : '';
+        $resolve_date_to = isset($params['resolve_date_to']) ? $params['resolve_date_to'] : '';
 
         $this->db_lama->where('scrape_category', $category);
         if ($work_zone !== 'ALL') {
@@ -149,6 +159,12 @@ class Dashboard_insera_model extends CI_Model {
         } else {
             $this->db_lama->where_not_in('ticket_status', $this->open_statuses);
             $aging_expr = "TIMESTAMPDIFF(HOUR, reported_date, resolve_date)";
+            if (!empty($resolve_date_from)) {
+                $this->db_lama->where('resolve_date >=', $resolve_date_from . ' 00:00:00');
+            }
+            if (!empty($resolve_date_to)) {
+                $this->db_lama->where('resolve_date <=', $resolve_date_to . ' 23:59:59');
+            }
         }
 
         if ($bucket === '< 1 jam') {

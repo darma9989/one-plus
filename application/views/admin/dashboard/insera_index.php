@@ -259,6 +259,66 @@
         color: var(--mac-text-dim) !important;
     }
 
+    /* CLOSED tab filter dark mode */
+    .closed-filter-form label {
+        color: var(--mac-text-dim) !important;
+        font-weight: 600;
+    }
+
+    .closed-filter-form .form-control {
+        background: #000000 !important;
+        border: 1px solid var(--mac-border) !important;
+        color: #ffffff !important;
+        border-radius: 8px !important;
+        height: 34px;
+    }
+
+    .closed-filter-form .form-control:focus {
+        border-color: var(--mac-blue) !important;
+        box-shadow: 0 0 0 2px rgba(10, 132, 255, 0.2) !important;
+    }
+
+    .closed-filter-form .btn-closed-filter {
+        background: #000000 !important;
+        border: 1px solid var(--mac-border) !important;
+        color: #ffffff !important;
+        border-radius: 8px !important;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+    .closed-filter-form .btn-closed-filter:hover {
+        border-color: var(--mac-blue) !important;
+        color: var(--mac-blue) !important;
+    }
+
+    .closed-filter-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .closed-filter-header .box-title {
+        margin-right: auto;
+    }
+
+    .closed-filter-header .closed-filter-form {
+        margin-left: auto;
+    }
+
+    .closed-filter-header .closed-filter-form .form-group {
+        margin-bottom: 0;
+    }
+
+    @media (max-width: 991px) {
+        .closed-filter-header .closed-filter-form {
+            width: 100%;
+            margin-left: 0;
+            margin-top: 8px;
+        }
+    }
+
     /* Global Style for Export Buttons (Excel, PDF, Print) */
     .dt-buttons .btn {
         background: #000000 !important;
@@ -789,6 +849,30 @@
 
         <!-- TAB CLOSED -->
         <div class="tab-pane" id="tab_closed">
+            <div class="box" style="border-top: 3px solid #00a65a;">
+                <div class="box-header with-border closed-filter-header">
+                    <h3 class="box-title" style="font-weight: 700;">
+                        <i class="fa fa-filter"></i> Filter Resolve Date (CLOSED)
+                    </h3>
+                    <form method="get" action="<?php echo base_url('admin/dashboard_insera'); ?>" class="form-inline closed-filter-form">
+                        <input type="hidden" name="tab" value="closed">
+                        <div class="form-group" style="margin-right: 10px;">
+                            <label for="resolve_date_from" style="margin-right: 6px;">Dari</label>
+                            <input type="date" id="resolve_date_from" name="resolve_date_from" class="form-control" value="<?php echo htmlspecialchars(isset($resolve_date_from) ? $resolve_date_from : ''); ?>">
+                        </div>
+                        <div class="form-group" style="margin-right: 10px;">
+                            <label for="resolve_date_to" style="margin-right: 6px;">Sampai</label>
+                            <input type="date" id="resolve_date_to" name="resolve_date_to" class="form-control" value="<?php echo htmlspecialchars(isset($resolve_date_to) ? $resolve_date_to : ''); ?>">
+                        </div>
+                        <button type="submit" class="btn btn-closed-filter" style="margin-right: 6px;">
+                            <i class="fa fa-search"></i> Filter
+                        </button>
+                        <a href="<?php echo base_url('admin/dashboard_insera?tab=closed'); ?>" class="btn btn-closed-filter">
+                            <i class="fa fa-refresh"></i> Reset
+                        </a>
+                    </form>
+                </div>
+            </div>
             <?php if(empty($pivot_closed)): ?>
                 <div class="alert alert-info">Belum ada data tiket CLOSED.</div>
             <?php else: ?>
@@ -945,6 +1029,8 @@
 var dtDetail;
 var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
 var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+var closedResolveDateFrom = '<?php echo isset($resolve_date_from) ? htmlspecialchars($resolve_date_from, ENT_QUOTES, 'UTF-8') : ''; ?>';
+var closedResolveDateTo = '<?php echo isset($resolve_date_to) ? htmlspecialchars($resolve_date_to, ENT_QUOTES, 'UTF-8') : ''; ?>';
 
 $(document).ready(function() {
     // $('.pivot-table').DataTable({
@@ -968,6 +1054,11 @@ $(document).ready(function() {
             "info": "Menampilkan _START_ s/d _END_ dari _TOTAL_ tiket"
         }
     });
+
+    var activeTab = '<?php echo $this->input->get('tab', TRUE); ?>';
+    if (activeTab === 'closed') {
+        $('.nav-tabs a[href="#tab_closed"]').tab('show');
+    }
 });
 
 function formatSeconds(seconds) {
@@ -1009,6 +1100,10 @@ function showDetail(category, workzone, statusType, bucket, customerType) {
         bucket: bucket,
         customer_type: customerType
     };
+    if (statusType === 'CLOSED') {
+        reqData.resolve_date_from = closedResolveDateFrom;
+        reqData.resolve_date_to = closedResolveDateTo;
+    }
     reqData[csrfName] = csrfHash; // Inject CSRF token
     
     // Call AJAX
