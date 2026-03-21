@@ -226,6 +226,12 @@
         border-color: var(--mac-border) !important;
     }
 
+    /* Keep Service Information content on a single line */
+    #detailTable th.service-info-col,
+    #detailTable td.service-info-col {
+        white-space: nowrap !important;
+    }
+
     #detailTable tbody tr:nth-of-type(odd) {
         background-color: rgba(255, 255, 255, 0.03) !important;
     }
@@ -896,7 +902,7 @@
 
 <!-- Modal pop-up for ticket details -->
 <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" data-backdrop="static">
-  <div class="modal-dialog modal-lg" style="width: 90%; max-width: 1200px;" role="document">
+  <div class="modal-dialog modal-lg" style="width: 90%;" role="document">
     <div class="modal-content border-0" style="border-radius: 10px; overflow: hidden;">
       <div class="modal-header shadow-sm" style="border:0; background: #000000 !important; color: #ffffff !important;">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#fff; opacity: 1;"><span aria-hidden="true">&times;</span></button>
@@ -912,7 +918,7 @@
                         <tr>
                             <th class="text-center">No</th>
                             <th>Ticket ID</th>
-                            <th>Service No</th>
+                            <th class="service-info-col">Service Information</th>
                             <th>Workzone</th>
                             <th>Customer Type</th>
                             <th>Reported Date</th>
@@ -953,6 +959,9 @@ $(document).ready(function() {
     dtDetail = $('#detailTable').DataTable({
         "autoWidth": false,
         "searching": true,
+        "columnDefs": [
+            { "targets": 2, "className": "service-info-col" }
+        ],
         "language": {
             "search": "Cari Cepat:",
             "lengthMenu": "Tampilkan _MENU_ baris",
@@ -1025,7 +1034,11 @@ function showDetail(category, workzone, statusType, bucket, customerType) {
                     rows.push([
                         (i+1),
                         '<strong>' + (item.ticket_id || '-') + '</strong>',
-                        '<strong>' + (item.service_no || '-') + '</strong>',
+                        '<div><strong>' + (item.service_no || '-') + '</strong></div>'
+                            + '<div style="font-size:11px; color:#bdbdbd; margin-top:3px; white-space:nowrap;">'
+                            + (item.rk_information || '-') + '<br>'
+                            + (item.pipe_name || '-')
+                            + '</div>',
                         item.work_zone,
                         '<code>' + (item.customer_type || '-') + '</code>',
                         item.reported_date,
