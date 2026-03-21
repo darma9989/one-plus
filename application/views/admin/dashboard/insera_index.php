@@ -638,18 +638,23 @@
                                 <td class="text-center" style="vertical-align: middle; font-size: 14px; text-align: center; color: #fff; background: #000000 !important;">GRAND TOTAL PL-TSEL (BY GROUP)</td>
                                 <?php foreach($gt_buckets_cust as $bk => $val): ?>
                                     <td class="text-center" style="vertical-align: middle; text-align: center; background: #000000 !important;">
-                                        <span style="font-weight: 800; color: #fff;"><?php echo number_format($val); ?></span>
+                                        <?php if($val > 0): ?>
+                                            <a href="javascript:void(0)" class="text-white" style="font-weight: 800; text-decoration: underline; color: #fff !important;" onclick="showDetail('PL-TSEL', 'ALL', 'OPEN', '<?php echo htmlspecialchars($bk); ?>', 'ALL')"><?php echo number_format($val); ?></a>
+                                        <?php else: echo 0; endif; ?>
                                     </td>
                                 <?php endforeach; ?>
                                 <td class="text-center" style="vertical-align: middle; font-size: 16px; color: #fff; text-align: center; background: #000000 !important;">
-                                    <span style="font-weight: 800; color: #fff;"><?php echo number_format($gt_total_cust); ?></span>
+                                    <?php if($gt_total_cust > 0): ?>
+                                        <a href="javascript:void(0)" class="text-white" style="font-weight: 800; text-decoration: underline; color: #fff !important;" onclick="showDetail('PL-TSEL', 'ALL', 'OPEN', 'ALL', 'ALL')"><?php echo number_format($gt_total_cust); ?></a>
+                                    <?php else: echo 0; endif; ?>
                                 </td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             </div>
-            <?php endif; ?>            <!-- PL-TSEL 4 TIERED PIVOT TABLES (per Customer Type Group) -->
+            <?php endif; ?>        
+            <!-- PL-TSEL 4 TIERED PIVOT TABLES (per Customer Type Group) -->
             <?php
             $pltsel_tiers = array(
                 array('label'=>'HVC_DIAMOND',  'icon'=>'fa-diamond','color'=>'#00d2ff','border'=>'#00d2ff','data'=>$pivot_pltsel_diamond),
