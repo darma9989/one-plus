@@ -217,7 +217,8 @@ class Dashboard_insera_model extends CI_Model {
                    SUM(CASE WHEN $aging_expr >= 36 AND $aging_expr < 72 THEN 1 ELSE 0 END) AS `36-72 jam`,
                    SUM(CASE WHEN $aging_expr >= 72 THEN 1 ELSE 0 END) AS `> 72 jam`
                 FROM insera
-                WHERE scrape_category = ? ";
+                WHERE scrape_category = ?
+                AND ticket_status IN ('NEW', 'DRAFT', 'ANALYSIS', 'PENDING', 'BACKEND') ";
 
         // Workzone filter
         $workzone_group = $this->session->userdata('workzone');
