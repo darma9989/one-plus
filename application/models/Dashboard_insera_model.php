@@ -51,7 +51,7 @@ class Dashboard_insera_model extends CI_Model {
         );
     }
 
-    public function get_pivot_by_category($status_type = 'OPEN') {
+    public function get_pivot_by_category($status_type = 'OPEN', $categories = array()) {
         if ($status_type === 'OPEN') {
             $aging_expr = "TIMESTAMPDIFF(HOUR, reported_date, NOW())";
         } else {
@@ -84,6 +84,11 @@ class Dashboard_insera_model extends CI_Model {
                    SUM(CASE WHEN $aging_expr >= 72 THEN 1 ELSE 0 END) AS `> 72 jam`
                 FROM insera
                 WHERE scrape_category IS NOT NULL AND scrape_category != ''";
+
+        if (!empty($categories)) {
+            $cat_list = "'" . implode("','", $categories) . "'";
+            $sql .= " AND scrape_category IN ($cat_list)";
+        }
 
         $workzone_group = $this->session->userdata('workzone');
         if (!$this->session->userdata('is_superadmin') && $workzone_group) {

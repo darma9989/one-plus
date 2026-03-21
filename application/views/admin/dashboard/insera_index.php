@@ -330,6 +330,7 @@
 <div class="nav-tabs-custom" style="margin-top: 20px;">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#tab_open" data-toggle="tab" style="font-weight: 700; color: #dd4b39;"><i class="fa fa-folder-open"></i> Distribusi Tiket OPEN</a></li>
+        <li><a href="#tab_star" data-toggle="tab" style="font-weight: 700; color: #f39c12;"><i class="fa fa-star"></i> STAR (HSI & PL-TSEL)</a></li>
         <li><a href="#tab_closed" data-toggle="tab" style="font-weight: 700; color: #00a65a;"><i class="fa fa-check-circle"></i> Distribusi Tiket CLOSED</a></li>
         <li class="pull-right" style="padding: 10px 15px;">
             <div style="background: rgba(255,255,255,0.05); border: 1px solid var(--mac-border); border-radius: 50px; padding: 4px 15px; font-size: 11px; color: var(--mac-text-dim);">
@@ -373,6 +374,117 @@
                                     <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">&gt; 72 jam</th>
                                 </tr>
                             </thead>
+                                <?php 
+                                $gt_buckets = array('< 1 jam'=>0, '1-2 jam'=>0, '2-3 jam'=>0, '3-6 jam'=>0, '6-12 jam'=>0, '12-36 jam'=>0, '36-72 jam'=>0, '> 72 jam'=>0);
+                                $gt_total = 0;
+
+                                // Pre-calculate rowspans
+                                $sa_spans = [];
+                                $sektor_spans = [];
+                                foreach($rows as $rv) {
+                                    $sa_key = $rv['service_area'];
+                                    $sk_key = $rv['service_area'] . '|' . $rv['sektor'];
+                                    $sa_spans[$sa_key] = (isset($sa_spans[$sa_key]) ? $sa_spans[$sa_key] : 0) + 1;
+                                    $sektor_spans[$sk_key] = (isset($sektor_spans[$sk_key]) ? $sektor_spans[$sk_key] : 0) + 1;
+                                }
+                                $sa_done = [];
+                                $sk_done = [];
+
+                                foreach($rows as $r): 
+                                    $current_sa = $r['service_area'];
+                                    $current_sk = $r['service_area'] . '|' . $r['sektor'];
+                                ?>
+                                <tr>
+                                    <?php if(!isset($sa_done[$current_sa])): ?>
+                                        <td class="text-center" rowspan="<?php echo $sa_spans[$current_sa]; ?>" style="font-weight: 700; text-align: center; vertical-align: middle; background: rgba(255,255,255,0.02); border-bottom: 1px solid var(--mac-border);"><?php echo htmlspecialchars($current_sa); ?></td>
+                                        <?php $sa_done[$current_sa] = true; ?>
+                                    <?php endif; ?>
+
+                                    <?php if(!isset($sk_done[$current_sk])): ?>
+                                        <td class="text-center" rowspan="<?php echo $sektor_spans[$current_sk]; ?>" style="font-weight: 600; text-align: center; vertical-align: middle; background: rgba(255,255,255,0.01); border-bottom: 1px solid var(--mac-border);"><?php echo htmlspecialchars($r['sektor']); ?></td>
+                                        <?php $sk_done[$current_sk] = true; ?>
+                                    <?php endif; ?>
+
+                                    <td class="text-center" style="font-weight: 600; text-align: center; vertical-align: middle;"><?php echo htmlspecialchars($r['work_zone']); ?></td>
+                                    <?php 
+                                    $row_total = 0;
+                                    $buckets = ['< 1 jam', '1-2 jam', '2-3 jam', '3-6 jam', '6-12 jam', '12-36 jam', '36-72 jam', '> 72 jam'];
+                                    foreach($buckets as $b):
+                                        $val = isset($r[$b]) ? (int)$r[$b] : 0;
+                                        if ($val > 0) {
+                                            echo '<td class="text-center" style="text-align: center; vertical-align: middle;"><a href="javascript:void(0)" class="btn btn-xs" style="width: 100%; border-radius: 20px; font-weight: bold; background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255, 255, 255, 0.1);" onclick="showDetail(\''.htmlspecialchars($category).'\', \''.htmlspecialchars($r['work_zone']).'\', \'OPEN\', \''.htmlspecialchars($b).'\')">'.$val.'</a></td>';
+                                        } else {
+                                            echo '<td class="text-center text-muted" style="text-align: center; vertical-align: middle;">0</td>';
+                                        }
+                                        $row_total += $val;
+                                        $gt_buckets[$b] += $val;
+                                    endforeach;
+                                    $gt_total += $row_total;
+                                    ?>
+                                    <td class="text-center" style="font-weight: 800; font-size: 16px; text-align: center; vertical-align: middle;">
+                                        <?php if($row_total > 0): ?>
+                                            <a href="javascript:void(0)" class="text-white" style="font-weight: 800; text-decoration: underline; color: #fff !important;" onclick="showDetail('<?php echo htmlspecialchars($category); ?>', '<?php echo htmlspecialchars($r['work_zone']); ?>', 'OPEN', 'ALL')"><?php echo $row_total; ?></a>
+                                        <?php else: echo 0; endif; ?>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                            <tfoot style="background: #000000 !important; color: #ffffff !important;">
+                                <tr style="background: #000000 !important; color: #ffffff !important;">
+                                    <td class="text-center" colspan="3" style="vertical-align: middle; font-size: 14px; text-align: center; color: #fff; background: #000000 !important;">GRAND TOTAL</td>
+                                    <?php foreach($gt_buckets as $bk => $val): ?>
+                                        <td class="text-center" style="vertical-align: middle; text-align: center; background: #000000 !important;">
+                                            <?php if($val > 0): ?>
+                                                <a href="javascript:void(0)" class="text-white" style="font-weight: 800; text-decoration: underline; color: #fff !important;" onclick="showDetail('<?php echo htmlspecialchars($category); ?>', 'ALL', 'OPEN', '<?php echo htmlspecialchars($bk); ?>')"><?php echo number_format($val); ?></a>
+                                            <?php else: echo 0; endif; ?>
+                                        </td>
+                                    <?php endforeach; ?>
+                                    <td class="text-center" style="vertical-align: middle; font-size: 16px; color: #fff; text-align: center; background: #000000 !important;">
+                                        <?php if($gt_total > 0): ?>
+                                            <a href="javascript:void(0)" class="text-white" style="font-weight: 800; text-decoration: underline; color: #fff !important;" onclick="showDetail('<?php echo htmlspecialchars($category); ?>', 'ALL', 'OPEN', 'ALL')"><?php echo number_format($gt_total); ?></a>
+                                        <?php else: echo 0; endif; ?>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+
+        <!-- TAB STAR -->
+        <div class="tab-pane" id="tab_star">
+            <?php if(empty($pivot_star)): ?>
+                <div class="alert alert-info">Belum ada data tiket STAR (HSI & PL-TSEL).</div>
+            <?php else: ?>
+                <?php foreach ($pivot_star as $category => $rows): ?>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="font-weight: 600;">Scrape Kategori: <span class="label" style="background: #f39c12 !important; color: #fff !important;"><?php echo htmlspecialchars($category); ?></span></h3>
+                    </div>
+                    <div class="box-body table-responsive">
+                        <table class="table table-bordered table-striped table-hover pivot-table">
+                            <thead>
+                                <tr style="background: #000000 !important; color: #ffffff !important;">
+                                    <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Service Area</th>
+                                    <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Sektor</th>
+                                    <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Workzone</th>
+                                    <th class="text-center" colspan="8" style="letter-spacing: 1px; text-align: center; background: #000000 !important; color: #ffffff !important;">DURASI TIKET STAR (OPEN)</th>
+                                    <th class="text-center align-middle" rowspan="2" style="vertical-align: middle; text-align: center; background: #000000 !important; color: #ffffff !important;">Total</th>
+                                </tr>
+                                <tr style="background: #000000 !important; color: #ffffff !important;">
+                                    <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">&lt; 1 jam</th>
+                                    <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">1-2 jam</th>
+                                    <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">2-3 jam</th>
+                                    <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">3-6 jam</th>
+                                    <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">6-12 jam</th>
+                                    <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">12-36 jam</th>
+                                    <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">36-72 jam</th>
+                                    <th class="text-center" style="text-align: center; background: #000000 !important; color: #ffffff !important;">&gt; 72 jam</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 <?php 
                                 $gt_buckets = array('< 1 jam'=>0, '1-2 jam'=>0, '2-3 jam'=>0, '3-6 jam'=>0, '6-12 jam'=>0, '12-36 jam'=>0, '36-72 jam'=>0, '> 72 jam'=>0);
                                 $gt_total = 0;
