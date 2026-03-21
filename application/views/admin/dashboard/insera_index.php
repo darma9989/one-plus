@@ -287,9 +287,19 @@
         transition: all 0.2s ease;
     }
 
-    .closed-filter-form .btn-closed-filter:hover {
+    /* Keep all closed-filter buttons readable globally */
+    .btn-closed-filter,
+    .btn-closed-filter:focus,
+    .btn-closed-filter:hover,
+    .btn-closed-filter:active {
+        color: #ffffff !important;
+        text-decoration: none !important;
+    }
+
+    .btn-closed-filter:hover,
+    .btn-closed-filter:focus {
+        background: #2c2c2e !important;
         border-color: var(--mac-blue) !important;
-        color: var(--mac-blue) !important;
     }
 
     .closed-filter-form .preset-select {
@@ -895,6 +905,12 @@
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title" style="font-weight: 600;">Scrape Kategori: <span class="label label-success"><?php echo htmlspecialchars($category); ?></span></h3>
+                        <div class="box-tools pull-right">
+                            <a class="btn btn-xs btn-closed-filter"
+                               href="<?php echo base_url('admin/dashboard_insera/export_closed_category_excel?category=' . rawurlencode($category) . '&resolve_date_from=' . rawurlencode(isset($resolve_date_from) ? $resolve_date_from : '') . '&resolve_date_to=' . rawurlencode(isset($resolve_date_to) ? $resolve_date_to : '')); ?>">
+                                <i class="fa fa-download"></i> Download Excel
+                            </a>
+                        </div>
                     </div>
                     <div class="box-body table-responsive">
                         <table class="table table-bordered table-striped table-hover pivot-table">

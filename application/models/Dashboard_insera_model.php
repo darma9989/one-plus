@@ -202,6 +202,25 @@ class Dashboard_insera_model extends CI_Model {
         return $this->db_lama->get('insera')->result();
     }
 
+    public function get_closed_export_tickets_by_category($category, $resolve_date_from = '', $resolve_date_to = '') {
+        $this->db_lama->select('ticket_id, service_no, rk_information, pipe_name, work_zone, customer_type, reported_date, resolve_date, ticket_status, ttr_customer, summary');
+        $this->db_lama->from('insera');
+        $this->db_lama->where('scrape_category', $category);
+        $this->db_lama->where_not_in('ticket_status', $this->open_statuses);
+        $this->_apply_workzone_filter();
+
+        if (!empty($resolve_date_from)) {
+            $this->db_lama->where('resolve_date >=', $resolve_date_from . ' 00:00:00');
+        }
+        if (!empty($resolve_date_to)) {
+            $this->db_lama->where('resolve_date <=', $resolve_date_to . ' 23:59:59');
+        }
+
+        $this->db_lama->order_by('resolve_date', 'ASC');
+        $this->db_lama->order_by('reported_date', 'ASC');
+        return $this->db_lama->get()->result_array();
+    }
+
     public function get_last_update() {
         $row = $this->db_lama->select('scraped_at')
                              ->order_by('scraped_at', 'DESC')

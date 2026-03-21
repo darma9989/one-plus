@@ -55,6 +55,58 @@ class Dashboard_insera extends Admin_Controller {
         ));
     }
 
+    public function export_closed_category_excel() {
+        $category = $this->input->get('category', TRUE);
+        $resolve_date_from = $this->_sanitize_date($this->input->get('resolve_date_from', TRUE));
+        $resolve_date_to = $this->_sanitize_date($this->input->get('resolve_date_to', TRUE));
+        if (!empty($resolve_date_from) && !empty($resolve_date_to) && $resolve_date_from > $resolve_date_to) {
+            $tmp = $resolve_date_from;
+            $resolve_date_from = $resolve_date_to;
+            $resolve_date_to = $tmp;
+        }
+
+        if (empty($category)) {
+            show_error('Kategori tidak valid.', 400);
+            return;
+        }
+
+        $rows = $this->Dashboard_insera_model->get_closed_export_tickets_by_category($category, $resolve_date_from, $resolve_date_to);
+
+        $safe_category = preg_replace('/[^A-Za-z0-9_\-]/', '_', $category);
+        $date_part = (!empty($resolve_date_from) || !empty($resolve_date_to))
+            ? '_' . (!empty($resolve_date_from) ? $resolve_date_from : 'all') . '_to_' . (!empty($resolve_date_to) ? $resolve_date_to : 'all')
+            : '_all_dates';
+        $filename = 'closed_' . $safe_category . $date_part . '.csv';
+
+        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
+        $output = fopen('php://output', 'w');
+        fwrite($output, "\xEF\xBB\xBF");
+        fputcsv($output, array('Ticket ID', 'Service No', 'RK Information', 'Pipe Name', 'Workzone', 'Customer Type', 'Reported Date', 'Resolve Date', 'Ticket Status', 'TTR Customer', 'Summary'));
+
+        foreach ($rows as $r) {
+            fputcsv($output, array(
+                isset($r['ticket_id']) ? $r['ticket_id'] : '',
+                isset($r['service_no']) ? $r['service_no'] : '',
+                isset($r['rk_information']) ? $r['rk_information'] : '',
+                isset($r['pipe_name']) ? $r['pipe_name'] : '',
+                isset($r['work_zone']) ? $r['work_zone'] : '',
+                isset($r['customer_type']) ? $r['customer_type'] : '',
+                isset($r['reported_date']) ? $r['reported_date'] : '',
+                isset($r['resolve_date']) ? $r['resolve_date'] : '',
+                isset($r['ticket_status']) ? $r['ticket_status'] : '',
+                isset($r['ttr_customer']) ? $r['ttr_customer'] : '',
+                isset($r['summary']) ? $r['summary'] : ''
+            ));
+        }
+
+        fclose($output);
+        exit;
+    }
+
     private function _sanitize_date($date_value) {
         if (empty($date_value)) return '';
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date_value) !== 1) return '';
