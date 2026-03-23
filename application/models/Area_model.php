@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Area_model extends CI_Model {
 
+    protected $db_db_lama;
+
+    public function __construct() {
+        parent::__construct();
+        $this->db_db_lama = $this->load->database('db_lama', TRUE);
+    }
+
+
     // --- WITEL ---
     public function get_hierarchy() {
         $witel = $this->get_witel();
