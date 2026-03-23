@@ -410,7 +410,20 @@
                     <div class="form-group">
                         <label>STO</label>
                         <select name="sto_id" class="form-control" required>
-                            <?php foreach($sto as $s): ?><option value="<?php echo $s['sto_id']; ?>"><?php echo $s['nama_sto']; ?></option><?php endforeach; ?>
+                            <?php 
+                                if(isset($sto) && is_array($sto)):
+                                    foreach($sto as $s): 
+                                        // Karena data berupa array associative
+                                        if(isset($s['id']) && isset($s['nama_sto'])):
+                                ?>
+                                            <option value="<?php echo $s['id']; ?>">
+                                                <?php echo $s['nama_sto']; ?> (<?php echo $s['kode_sto']; ?>)
+                                            </option>
+                                <?php 
+                                        endif;
+                                    endforeach;
+                                endif;
+                            ?>
                         </select>
                     </div>
                     <div class="form-group"><label>Nama Wilsus</label><input type="text" name="nama_wilsus" class="form-control" required></div>
