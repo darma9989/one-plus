@@ -198,7 +198,9 @@ class Dashboard_insera_model extends CI_Model {
             }
         }
 
-        $this->db_lama->order_by('reported_date', 'ASC');
+        //$this->db_lama->order_by('reported_date', 'ASC');
+        $this->db_lama->order_by('rk_information', 'ASC');
+        $this->db_lama->order_by('pipe_name', 'ASC');
         return $this->db_lama->get('insera')->result();
     }
 
