@@ -18,7 +18,7 @@
                         <button class="btn btn-primary btn-flat" onclick="addWitel()"><i class="fa fa-plus"></i> Tambah Witel</button>
                     </div>
                     <table id="tblWitel" class="table table-hover" style="width:100%;">
-                        <thead><tr><th>ID</th><th>NAMA WITEL</th><th style="width:80px;">AKSI</th></tr></thead>
+                        <thead><tr><th>NO</th><th>NAMA WITEL</th><th style="width:80px;">AKSI</th></tr></thead>
                         <tbody></tbody>
                     </table>
                 </div>
@@ -42,7 +42,7 @@
                         <button class="btn btn-warning btn-flat" onclick="addSK()" style="color:#fff;"><i class="fa fa-plus"></i> Tambah Sektor</button>
                     </div>
                     <table id="tblSK" class="table table-hover" style="width:100%;">
-                        <thead><tr><th>NAMA SEKTOR</th><th>SERVICE AREA</th><th style="width:80px;">AKSI</th></tr></thead>
+                        <thead><tr><th>NO</th><th>NAMA SEKTOR</th><th>SERVICE AREA</th><th style="width:80px;">AKSI</th></tr></thead>
                         <tbody></tbody>
                     </table>
                 </div>
@@ -54,7 +54,7 @@
                         <button class="btn btn-info btn-flat" onclick="addSTO()"><i class="fa fa-plus"></i> Tambah STO</button>
                     </div>
                     <table id="tblSTO" class="table table-hover" style="width:100%;">
-                        <thead><tr><th>KODE</th><th>NAMA STO</th><th>SEKTOR</th><th style="width:80px;">AKSI</th></tr></thead>
+                        <thead><tr><th>NO</th><th>KODE</th><th>NAMA STO</th><th>SEKTOR</th><th style="width:80px;">AKSI</th></tr></thead>
                         <tbody></tbody>
                     </table>
                 </div>
@@ -66,7 +66,7 @@
                         <button class="btn btn-danger btn-flat" onclick="addWS()"><i class="fa fa-plus"></i> Tambah Wilsus</button>
                     </div>
                     <table id="tblWS" class="table table-hover" style="width:100%;">
-                        <thead><tr><th>NAMA WILSUS</th><th>STO</th><th style="width:80px;">AKSI</th></tr></thead>
+                        <thead><tr><th>NO</th><th>NAMA WILSUS</th><th>STO</th><th style="width:80px;">AKSI</th></tr></thead>
                         <tbody></tbody>
                     </table>
                 </div>
@@ -426,11 +426,11 @@
 <script>
 $(document).ready(function(){
     // Init All DataTables
-    var t_witel = $('#tblWitel').DataTable({ ajax: BASE_URL+'admin/area/get_witel', columns: [ {data:'id'}, {data:'nama_witel'}, {data:'id', render:btnWitel} ] });
-    var t_sa    = $('#tblSA').DataTable({ ajax: BASE_URL+'admin/area/get_service_area', columns: [ {data:'nama_service_area'}, {data:'nama_witel'}, {data:'id', render:btnSA} ] });
-    var t_sk    = $('#tblSK').DataTable({ ajax: BASE_URL+'admin/area/get_sektor', columns: [ {data:'nama_sektor'}, {data:'nama_service_area'}, {data:'id', render:btnSK} ] });
-    var t_sto   = $('#tblSTO').DataTable({ ajax: BASE_URL+'admin/area/get_sto', columns: [ {data:'kode_sto'}, {data:'nama_sto'}, {data:'nama_sektor'}, {data:'id', render:btnSTO} ] });
-    var t_ws    = $('#tblWS').DataTable({ ajax: BASE_URL+'admin/area/get_wilsus', columns: [ {data:'nama_wilsus'}, {data:'nama_sto'}, {data:'id', render:btnWS} ] });
+    var t_witel = $('#tblWitel').DataTable({ ajax: BASE_URL+'admin/area/get_witel', columns: [ { data: null, render: function(data, type, row, meta) { return meta.row + 1; } }, {data:'nama_witel'}, {data:'id', render:btnWitel} ] });
+    var t_sa    = $('#tblSA').DataTable({ ajax: BASE_URL+'admin/area/get_service_area', columns: [ { data: null, render: function(data, type, row, meta) { return meta.row + 1; } },{data:'nama_service_area'}, {data:'nama_witel'}, {data:'id', render:btnSA} ] });
+    var t_sk    = $('#tblSK').DataTable({ ajax: BASE_URL+'admin/area/get_sektor', columns: [ { data: null, render: function(data, type, row, meta) { return meta.row + 1; } },{data:'nama_sektor'}, {data:'nama_service_area'}, {data:'id', render:btnSK} ] });
+    var t_sto   = $('#tblSTO').DataTable({ ajax: BASE_URL+'admin/area/get_sto', columns: [ { data: null, render: function(data, type, row, meta) { return meta.row + 1; } },{data:'kode_sto'}, {data:'nama_sto'}, {data:'nama_sektor'}, {data:'id', render:btnSTO} ] });
+    var t_ws    = $('#tblWS').DataTable({ ajax: BASE_URL+'admin/area/get_wilsus', columns: [ { data: null, render: function(data, type, row, meta) { return meta.row + 1; } },{data:'nama_wilsus'}, {data:'nama_sto'}, {data:'id', render:btnWS} ] });
 
     function btnWitel(d){ return '<div class="btn-group"><button class="btn btn-xs btn-default" onclick="editWitel('+d+')"><i class="fa fa-edit"></i></button><button class="btn btn-xs btn-danger" onclick="del(\'witel\','+d+')"><i class="fa fa-trash"></i></button></div>'; }
     function btnSA(d){ return '<div class="btn-group"><button class="btn btn-xs btn-default" onclick="editSA('+d+')"><i class="fa fa-edit"></i></button><button class="btn btn-xs btn-danger" onclick="del(\'sa\','+d+')"><i class="fa fa-trash"></i></button></div>'; }
