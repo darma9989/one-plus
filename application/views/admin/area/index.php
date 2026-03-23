@@ -425,6 +425,14 @@
 
 <script>
 $(document).ready(function(){
+    // Fungsi pembantu untuk penomoran otomatis
+    var columnNo = { 
+        data: null, 
+        sortable: false, 
+        render: function (data, type, row, meta) {
+            return meta.row + meta.settings._iDisplayStart + 1;
+        } 
+    };
     // Init All DataTables
     var t_witel = $('#tblWitel').DataTable({ ajax: BASE_URL+'admin/area/get_witel', columns: [ { data: null, render: function(data, type, row, meta) { return meta.row + 1; } }, {data:'nama_witel'}, {data:'id', render:btnWitel} ] });
     var t_sa    = $('#tblSA').DataTable({ ajax: BASE_URL+'admin/area/get_service_area', columns: [ { data: null, render: function(data, type, row, meta) { return meta.row + 1; } },{data:'nama_service_area'}, {data:'nama_witel'}, {data:'id', render:btnSA} ] });
