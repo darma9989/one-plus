@@ -30,7 +30,7 @@
                         <button class="btn btn-success btn-flat" onclick="addSA()"><i class="fa fa-plus"></i> Tambah Service Area</button>
                     </div>
                     <table id="tblSA" class="table table-hover" style="width:100%;">
-                        <thead><tr><th>NAMA SERVICE AREA</th><th>WITEL</th><th style="width:80px;">AKSI</th></tr></thead>
+                        <thead><tr><th>NO</th><th>NAMA SERVICE AREA</th><th>WITEL</th><th style="width:80px;">AKSI</th></tr></thead>
                         <tbody></tbody>
                     </table>
                 </div>
